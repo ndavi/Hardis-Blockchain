@@ -14,5 +14,9 @@ class ConfigLoader:
         config = ConfigLoader.__loadConfigFile()
         serverConfig = config["SERVER"]
         return serverConfig["chainname"] + "@" + serverConfig["address"] + ":" + serverConfig["port"]
-
+    @staticmethod
+    def getChainName():
+        config = ConfigLoader.__loadConfigFile()
+        serverConfig = config["SERVER"]
+        return serverConfig["chainname"]
 

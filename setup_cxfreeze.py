@@ -1,15 +1,18 @@
 from cx_Freeze import setup, Executable
+import sys
 
 base = None
-
+path = sys.path
 executables = [Executable("main.py", base=base)]
 includeFiles = ['multichaind.exe', 'config.cfg']
-
+includes = []
 packages = ["idna"]
 options = {
     'build_exe': {
         'packages': packages,
         'include_files': includeFiles,
+        'includes': includes,
+        'path': path
     },
 }
 

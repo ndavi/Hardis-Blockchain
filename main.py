@@ -1,7 +1,8 @@
 import os
 import argparse
-import log
-from configLoader import ConfigLoader
+from utils import log
+from utils.configLoader import ConfigLoader
+from blockchain.BlockChainAPI import BlockChainAPI
 
 logger = log.setup_custom_logger('root')
 
@@ -9,8 +10,14 @@ logger = log.setup_custom_logger('root')
 class MainDaemon:
     def __init__(self):
         logger.info("Démarrage du programme")
-        logger.info("Appel à multichaind")
+        logger.debug("Appel à multichaind")
         os.system("multichaind " + ConfigLoader.loadBlockChainAddress())
+
+class MainProgram:
+    def __init__(self):
+        api = BlockChainAPI()
+
+
 
 
 
@@ -20,4 +27,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.daemon:
         program = MainDaemon()
+    else:
+        program = MainProgram()
 

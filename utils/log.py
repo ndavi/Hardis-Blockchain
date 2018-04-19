@@ -1,6 +1,7 @@
 import logging
 import os
 
+
 def setup_custom_logger(name):
     formatter = logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(module)s - %(message)s')
 
@@ -14,7 +15,7 @@ def setup_custom_logger(name):
     debugLog.setFormatter(formatter)
 
     logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     logger.addHandler(console)
     logger.addHandler(debugLog)
     return logger
