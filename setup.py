@@ -3,7 +3,7 @@ from cx_Freeze import setup, Executable
 base = None
 
 executables = [Executable("main.py", base=base)]
-includeFiles = ['multichaind.exe']
+includeFiles = ['multichaind.exe', 'config.cfg']
 
 packages = ["idna"]
 options = {

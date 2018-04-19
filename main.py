@@ -1,6 +1,7 @@
 import os
 import argparse
 import log
+from configLoader import ConfigLoader
 
 logger = log.setup_custom_logger('root')
 
@@ -9,7 +10,7 @@ class MainDaemon:
     def __init__(self):
         logger.info("Démarrage du programme")
         logger.info("Appel à multichaind")
-        os.system("multichaind hardis@10.208.69.66:4411")
+        os.system("multichaind " + ConfigLoader.loadBlockChainAddress())
 
 
 
