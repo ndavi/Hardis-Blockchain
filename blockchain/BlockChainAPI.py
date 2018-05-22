@@ -48,7 +48,7 @@ class BlockChainAPI:
     # Helpful functions
 
     def generateID(self, type_stream):
-        random_id = random.randint(0, 9999)
+        random_id = random.randint(0, 99999)
         return type_stream + str(random_id)
 
     def fromParametersToDataRegister(self, brand, serial_number, purchase_date, business_unit, team, owner):
@@ -76,15 +76,19 @@ class BlockChainAPI:
     def fromHexaToData(self, data_hexa):
         return codecs.decode(data_hexa, "hex").decode('utf-8')
 
+    def cleanResults(self, results):
+        for element in results:
+            if not element:
+                results.remove(element)
+
+
     def printResults(self, results):
         print("\n")
         print()
         if results:
             for transaction in results:
-                if transaction:
-                    print(transaction)
-                    print("ID : " + transaction['key'])
-                    print("Data : " + self.fromHexaToData(transaction['data']))
+                print("ID : " + transaction['key'])
+                print("Data : " + self.fromHexaToData(transaction['data']))
         else:
             print("No result to print")
 
@@ -96,6 +100,7 @@ class BlockChainAPI:
         data_hexa = self.fromDataToHexa(data)
         self.api.publish(type_stream, id_equip, data_hexa)
         print("New equipment properly registered with id " + str(id_equip))
+        return id_equip
 
     def moveEquipment(self, id_equip, type_stream, new_owner, new_business_unit, new_team, date):
         data = self.fromParametersToDataMove(new_owner, new_business_unit, new_team, date)
@@ -123,6 +128,7 @@ class BlockChainAPI:
             if "'brand':'" + brand + "'" in data_txt:
                 results.extend(tr)
         time_end = time.time()
+        self.cleanResults(results)
         results_number = len(results)
         print(str(results_number) + " results found for brand  " + str(brand) + " in stream " + str(type_stream))
         print("Time spent : ")
