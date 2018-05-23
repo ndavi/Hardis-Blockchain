@@ -98,8 +98,11 @@ class BlockChainAPI:
         id_equip = self.generateID(type_stream)
         data = self.fromParametersToDataRegister(brand, serial_number, purchase_date, business_unit, team, owner)
         data_hexa = self.fromDataToHexa(data)
-        self.api.publish(type_stream, id_equip, data_hexa)
-        print("New equipment properly registered with id " + str(id_equip))
+        try:
+            self.api.publish(type_stream, id_equip, data_hexa)
+            print("New equipment properly registered with id " + str(id_equip))
+        except:
+            print("Error : something occurred. Are you sure you subscribed the right stream ?")
         return id_equip
 
     def moveEquipment(self, id_equip, type_stream, new_owner, new_business_unit, new_team, date):
@@ -107,8 +110,11 @@ class BlockChainAPI:
         data_hexa = self.fromDataToHexa(data)
         print(data_hexa)
         print(type(data_hexa))
-        self.api.publish(type_stream, id_equip, data_hexa)
-        print("Equipment with id " + str(id_equip) + " properly moved")
+        try:
+            self.api.publish(type_stream, id_equip, data_hexa)
+            print("Equipment with id " + str(id_equip) + " properly moved")
+        except:
+            print("Error : something occurred. Are you sure you subscribed the right stream ?")
 
     # Queries
 
