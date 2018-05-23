@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Accueil</class>
+ <widget class="QMainWindow" name="Accueil">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>845</width>
+    <height>568</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="Title">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>70</y>
+      <width>441</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>22</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;HARDIS Matériel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Register">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>180</y>
+      <width>171</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> Enregistrer 
+un équipement</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Move">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>180</y>
+      <width>171</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Déplacer 
+un équipement</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Empty">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>300</y>
+      <width>171</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Paramètres 
+du logiciel</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Query">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>300</y>
+      <width>171</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Consulter le
+ matériel enregistré</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logo">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>131</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>282</width>
+      <height>160</height>
+     </size>
+    </property>
+    <property name="sizeIncrement">
+     <size>
+      <width>1</width>
+      <height>2</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../logo.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>845</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuHardis_Mat_riel">
+    <property name="title">
+     <string>Hardis Matériel</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuEnregistrer_du_mat_riel">
+    <property name="title">
+     <string>Enregistrer matériel</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuD_placer_du_mat_riel">
+    <property name="title">
+     <string>Déplacement matériel</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuConsulter">
+    <property name="title">
+     <string>Consulter matériel</string>
+    </property>
+   </widget>
+   <addaction name="menuHardis_Mat_riel"/>
+   <addaction name="menuEnregistrer_du_mat_riel"/>
+   <addaction name="menuD_placer_du_mat_riel"/>
+   <addaction name="menuConsulter"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
