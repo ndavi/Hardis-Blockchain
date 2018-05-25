@@ -14,7 +14,7 @@
    <string>HARDIS Matériel</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="type_txt">
     <property name="geometry">
      <rect>
       <x>210</x>

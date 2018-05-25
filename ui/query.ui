@@ -17,9 +17,9 @@
    <widget class="QLabel" name="Title">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>70</y>
-      <width>441</width>
+      <x>180</x>
+      <y>30</y>
+      <width>561</width>
       <height>71</height>
      </rect>
     </property>
@@ -29,62 +29,7 @@
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;HARDIS Matériel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Register">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>180</y>
-      <width>171</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> Enregistrer 
-un équipement</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Move">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>180</y>
-      <width>171</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Déplacer 
-un équipement</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Empty">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>300</y>
-      <width>171</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Paramètres</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Query">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>300</y>
-      <width>171</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Consulter le
- matériel enregistré</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Consulter le matériel enregistré&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="logo">
@@ -112,7 +57,7 @@ un équipement</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../logo.png</pixmap>
+     <pixmap>../../Hardis-Blockchain/logo.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -131,10 +76,124 @@ un équipement</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../log-out.jpg</pixmap>
+     <pixmap>../../Hardis-Blockchain/log-out.jpg</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Enregistrer">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>190</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Valider</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="type_menu">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>140</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Type de matériel</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ID</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Marque</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Personne responsable</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="chercher">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>140</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Chercher par ...</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="valeur_entree">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>140</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valeur">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>140</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Valeur</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="affichage">
+    <property name="geometry">
+     <rect>
+      <x>95</x>
+      <y>250</y>
+      <width>655</width>
+      <height>260</height>
+     </rect>
     </property>
    </widget>
   </widget>
