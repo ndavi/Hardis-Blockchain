@@ -32,59 +32,32 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;HARDIS Matériel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Register">
+   <widget class="QPushButton" name="Multichain">
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>180</y>
+      <y>280</y>
       <width>171</width>
       <height>101</height>
      </rect>
     </property>
     <property name="text">
-     <string> Enregistrer 
-un équipement</string>
+     <string>Multichain
+(Blockchain)</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Move">
+   <widget class="QPushButton" name="IOTA">
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>180</y>
+      <y>280</y>
       <width>171</width>
       <height>101</height>
      </rect>
     </property>
     <property name="text">
-     <string>Déplacer 
-un équipement</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Empty">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>300</y>
-      <width>171</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Paramètres</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Query">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>300</y>
-      <width>171</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Consulter le
- matériel enregistré</string>
+     <string>IOTA
+(Graphe DAG)</string>
     </property>
    </widget>
    <widget class="QLabel" name="logo">
@@ -138,6 +111,24 @@ un équipement</string>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Techno">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>190</y>
+      <width>441</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>17</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Quelle technologie voulez-vous utiliser ?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>

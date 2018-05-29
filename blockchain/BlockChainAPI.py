@@ -47,11 +47,11 @@ class BlockChainAPI:
 
     # Helpful functions
 
-    def generateID(self, type_stream):
+    def generate_id(self, type_stream):
         random_id = random.randint(0, 99999)
         return type_stream + str(random_id)
 
-    def fromParametersToDataRegister(self, brand, serial_number, purchase_date, business_unit, team, owner):
+    def from_parameters_to_data_register(self, brand, serial_number, purchase_date, business_unit, team, owner):
         return json.dumps({
             "brand": brand,
             "serial number": serial_number,
@@ -61,7 +61,7 @@ class BlockChainAPI:
             "responsible person": owner}, indent=4
         )
 
-    def fromParametersToDataMove(self, new_owner, new_business_unit, new_team, date):
+    def from_parameters_to_data_move(self, new_owner, new_business_unit, new_team, date):
         return json.dumps({
             "owner": new_owner,
             "business unit": new_business_unit,
@@ -69,35 +69,35 @@ class BlockChainAPI:
             "date of the change": date}, indent=4
         )
 
-    def fromDataToHexa(self, data):
+    def from_data_to_hexa(self, data):
         data_hexa = hex(int.from_bytes(data.encode('utf-8'), 'big'))
         return data_hexa.replace('0x', "")
 
-    def fromHexaToData(self, data_hexa):
+    def from_hexa_to_data(self, data_hexa):
         return codecs.decode(data_hexa, "hex").decode('utf-8')
 
-    def cleanResults(self, results):
+    def clean_results(self, results):
         for element in results:
             if not element:
                 results.remove(element)
 
 
-    def printResults(self, results):
-        print("\n")
-        print()
+    def print_results(self, results):
+        data = []
         if results:
             for transaction in results:
-                print("ID : " + transaction['key'])
-                print("Data : " + self.fromHexaToData(transaction['data']))
+                data.append("ID : " + transaction['key'] +
+                            "\nData : " + self.from_hexa_to_data(transaction['data']))
         else:
-            print("No result to print")
+            data.append("No result to print")
+        return data
 
     # Transactions
 
-    def registerEquipment(self, type_stream, brand, serial_number, purchase_date, business_unit, team, owner):
-        id_equip = self.generateID(type_stream)
-        data = self.fromParametersToDataRegister(brand, serial_number, purchase_date, business_unit, team, owner)
-        data_hexa = self.fromDataToHexa(data)
+    def register_equipment(self, type_stream, brand, serial_number, purchase_date, business_unit, team, owner):
+        id_equip = self.generate_id(type_stream)
+        data = self.from_parameters_to_data_register(brand, serial_number, purchase_date, business_unit, team, owner)
+        data_hexa = self.from_data_to_hexa(data)
         try:
             self.api.publish(type_stream, id_equip, data_hexa)
             print("New equipment properly registered with id " + str(id_equip))
@@ -105,9 +105,9 @@ class BlockChainAPI:
             print("Error : something occurred. Are you sure you subscribed the right stream ?")
         return id_equip
 
-    def moveEquipment(self, id_equip, type_stream, new_owner, new_business_unit, new_team, date):
-        data = self.fromParametersToDataMove(new_owner, new_business_unit, new_team, date)
-        data_hexa = self.fromDataToHexa(data)
+    def move_equipment(self, id_equip, type_stream, new_owner, new_business_unit, new_team, date):
+        data = self.from_parameters_to_data_move(new_owner, new_business_unit, new_team, date)
+        data_hexa = self.from_data_to_hexa(data)
         print(data_hexa)
         print(type(data_hexa))
         try:
@@ -118,38 +118,50 @@ class BlockChainAPI:
 
     # Queries
 
-    def getByType(self, type_stream):
+    def get_transactions_by_type(self, type_stream):
         results = self.api.liststreamitems(type_stream, True, 100000)
         results_number = len(results)
         print(str(results_number)+" results found in stream " + str(type_stream))
         return results
 
-    def getByBrand(self, type_stream, brand):
+    def get_transactions_by_type_by_brand(self, type_stream, brand):
         results = []
         time_start = time.time()
-        transactions = self.getByType(type_stream)
+        transactions = self.get_transactions_by_type(type_stream)
+        if len(transactions) == 0:
+            return results
         for tr in transactions:
             data_hexa = tr['data']
-            data_txt = self.fromHexaToData(data_hexa)
-            if "'brand':'" + brand + "'" in data_txt:
-                results.extend(tr)
+            data_txt = self.from_hexa_to_data(data_hexa)
+            if "\"brand\": \"" + brand + "\"" in data_txt:
+                results.append(tr)
         time_end = time.time()
-        self.cleanResults(results)
+        self.clean_results(results)
         results_number = len(results)
-        print(str(results_number) + " results found for brand  " + str(brand) + " in stream " + str(type_stream))
+        print(str(results_number) + " results found for brand " + str(brand) + " in stream " + str(type_stream))
         print("Time spent : ")
         print(time_end - time_start)
         return results
 
-    def getByTypeByOwner(self, type_stream, owner):
+    def get_transactions_by_brand(self, brand):
+        results = []
+        streams = self.api.liststreams()
+        for stream in streams:
+            if stream['subscribed']:
+                results.extend(self.get_transactions_by_type_by_brand(stream['name'], brand))
+        results_number = len(results)
+        print(str(results_number) + " results found for brand " + str(brand))
+        return results
+
+    def get_transactions_by_type_by_owner(self, type_stream, owner):
         results = []
         time_start = time.time()
-        transactions = self.getByType(type_stream)
+        transactions = self.get_transactions_by_type(type_stream)
         for tr in transactions:
             data_hexa = tr['data']
-            data_txt = self.fromHexaToData(data_hexa)
+            data_txt = self.from_hexa_to_data(data_hexa)
             if "\"responsible person\": \"" + owner + "\"" in data_txt:
-                results.extend(tr)
+                results.append(tr)
         time_end = time.time()
         results_number = len(results)
         print(str(results_number) + " results found in stream " + str(type_stream) + " for user " + str(owner))
@@ -157,28 +169,28 @@ class BlockChainAPI:
         print(time_end - time_start)
         return results
 
-    def getByOwner(self, owner):
+    def get_transactions_by_owner(self, owner):
         results = []
         streams = self.api.liststreams()
         for stream in streams:
             if stream['subscribed']:
-                results.extend(self.getByTypeByOwner(stream['name'], owner))
+                results.extend(self.get_transactions_by_type_by_owner(stream['name'], owner))
         results_number = len(results)
         print(str(results_number) + " results found for user " + str(owner))
         return results
 
-    def getByTypeByID(self, type_stream, id_equip):
+    def get_transactions_by_type_by_id(self, type_stream, id_equip):
         results = self.api.liststreamkeyitems(type_stream, id_equip)
         results_number = len(results)
         print(str(results_number) + " results found in stream " + str(type_stream) + " for ID " + str(id_equip))
         return results
 
-    def getByID(self, id_equip):
+    def get_transactions_by_id(self, id_equip):
         results = []
         streams = self.api.liststreams()
         for stream in streams:
             if stream['subscribed']:
-                results.extend(self.getByTypeByID(stream['name'], id_equip))
+                results.extend(self.get_transactions_by_type_by_id(stream['name'], id_equip))
         results_number = len(results)
         print(str(results_number) + " results found for ID " + str(id_equip))
         return results

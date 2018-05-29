@@ -125,3 +125,13 @@ class Ui_Accueil(object):
         self.actionParam_tres.setText(_translate("Accueil", "Paramètres"))
         self.actionQuitter.setText(_translate("Accueil", "Quitter"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Accueil = QtWidgets.QMainWindow()
+    ui = Ui_Accueil()
+    ui.setupUi(Accueil)
+    Accueil.show()
+    sys.exit(app.exec_())
+

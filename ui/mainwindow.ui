@@ -115,29 +115,6 @@
      <string>BU</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="BU_txt">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>150</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Equipe_txt">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>210</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="Equipe">
     <property name="geometry">
      <rect>
@@ -338,13 +315,98 @@ responsable</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../logo.png</pixmap>
+     <pixmap>../../Hardis-Blockchain/logo.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="type_txt_2">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>150</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Business Applications</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Business Consulting</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cloud Platform</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Reflex</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Indifférent</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="type_txt_3">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>210</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Pole Digital</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Pole TSI</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Salesforce</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Indifférent</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="logout">
+    <property name="geometry">
+     <rect>
+      <x>816</x>
+      <y>10</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../Hardis-Blockchain/log-out.jpg</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
    </widget>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -356,30 +418,53 @@ responsable</string>
    </property>
    <widget class="QMenu" name="menuHardis_Mat_riel">
     <property name="title">
-     <string>Hardis Matériel</string>
+     <string>Accueil</string>
     </property>
+    <addaction name="actionAccueil"/>
+    <addaction name="actionParam_tres"/>
+    <addaction name="actionQuitter"/>
    </widget>
-   <widget class="QMenu" name="menuEnregistrer_mat_riel">
+   <widget class="QMenu" name="menuOp_rations">
     <property name="title">
-     <string>Enregistrer matériel</string>
+     <string>Opérations</string>
     </property>
-   </widget>
-   <widget class="QMenu" name="menuD_placement_mat_riel">
-    <property name="title">
-     <string>Déplacement matériel</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuConsulter_mat_riel">
-    <property name="title">
-     <string>Consulter matériel</string>
-    </property>
+    <addaction name="actionEnregistrer_mat_riel"/>
+    <addaction name="actionD_placement_mat_riel"/>
+    <addaction name="actionConsulter_mat_riel"/>
    </widget>
    <addaction name="menuHardis_Mat_riel"/>
-   <addaction name="menuEnregistrer_mat_riel"/>
-   <addaction name="menuD_placement_mat_riel"/>
-   <addaction name="menuConsulter_mat_riel"/>
+   <addaction name="menuOp_rations"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionD_placement_mat_riel">
+   <property name="text">
+    <string>Déplacement matériel</string>
+   </property>
+  </action>
+  <action name="actionEnregistrer_mat_riel">
+   <property name="text">
+    <string>Enregistrer matériel</string>
+   </property>
+  </action>
+  <action name="actionConsulter_mat_riel">
+   <property name="text">
+    <string>Consulter matériel</string>
+   </property>
+  </action>
+  <action name="actionAccueil">
+   <property name="text">
+    <string>Accueil</string>
+   </property>
+  </action>
+  <action name="actionQuitter">
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </action>
+  <action name="actionParam_tres">
+   <property name="text">
+    <string>Paramètres </string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

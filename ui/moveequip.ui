@@ -118,16 +118,6 @@
      <string>Date de modification</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="BU">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>200</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="Enregistrer">
     <property name="geometry">
      <rect>
@@ -155,36 +145,6 @@
     <property name="flat">
      <bool>false</bool>
     </property>
-   </widget>
-   <widget class="QComboBox" name="type_menu">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>200</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>Informatique</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Téléphonie</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Cuisine</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Meuble</string>
-     </property>
-    </item>
    </widget>
    <widget class="QComboBox" name="IDequipement">
     <property name="geometry">
@@ -292,19 +252,6 @@ responsable</string>
      <string>Type de matériel</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="equipe">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>260</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="equipe_label">
     <property name="geometry">
      <rect>
@@ -322,6 +269,106 @@ responsable</string>
     <property name="text">
      <string>Equipe</string>
     </property>
+   </widget>
+   <widget class="QComboBox" name="type_txt">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>200</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Ordinateur et accessoires</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bureau</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Chaise</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Micro-ondes</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cafetière</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="type_txt_3">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>260</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Pole Digital</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Pole TSI</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Salesforce</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Indifférent</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="type_txt_2">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>200</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Business Applications</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Business Consulting</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cloud Platform</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Reflex</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Indifférent</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

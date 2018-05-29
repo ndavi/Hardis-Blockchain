@@ -1,0 +1,1 @@
+{"account_data": [{"settings": [{"host": "https://walletservice.iota.community:443", "min_weight_magnitude": 14, "units": "i"}], "address_data": [], "fal_balance": [{"f_index": 0, "l_index": 0}], "transfers_data": []}]}

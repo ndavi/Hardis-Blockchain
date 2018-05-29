@@ -1,43 +1,61 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from ui import mainwindowUI, moveUI
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5 import QtCore
+from graph.GraphAPI import GraphAPI
+from ui import moveUI
 from blockchain.BlockChainAPI import BlockChainAPI
-
+import datetime
 
 class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
-    def __init__(self, parent=None):
+    def __init__(self, api, position, parent=None):
         super(MoveWindow, self).__init__(parent)
         self.setupUi(self)
-        self.api = BlockChainAPI()
-
+        self.api = None
+        self.api_name = api
+        if self.api_name == "multichain":
+            self.api = BlockChainAPI()
+        elif self.api_name == "iota":
+            self.api = GraphAPI()
+        date_now = datetime.datetime.now()
+        self.dateDeplacement.setDate(QtCore.QDate(date_now.year, date_now.month, date_now.day))
+        self.position = position
+        self.move(self.position[0], self.position[1])
         self.Enregistrer.clicked.connect(self.move_equipment)
 
     def move_equipment(self):
         type_french = str(self.type_txt.currentText())
         type_english = self.translate_type(type_french)
-        id_equip = str(self.id.currentText())
-        brand = str(self.Marque_txt.text())
-        serial_number = str(self.NoSerie_txt.text())
-        business_unit = str(self.BU_txt.text())
-        team = str(self.Equipe_txt.text())
-        owner = str(self.Responsable_txt.text())
-        purchase_date = str(self.Date.date().day())+"-"+str(self.Date.date().month())+"-"+str(self.Date.date().year())
-        self.api.moveEquipment(id_equip, type_english, brand, serial_number, purchase_date, business_unit, team, owner)
+        id_equip = str(self.IDequipement.text())
+        business_unit = str(self.type_txt_2.currentText())
+        team = str(self.type_txt_3.currentText())
+        owner = str(self.responsable.text())
+        purchase_date = str(self.dateDeplacement.date().day())+"-"+str(self.dateDeplacement.date().month())+"-"+str(self.dateDeplacement.date().year())
+        self.api.move_equipment(id_equip, type_english, owner, business_unit, team, purchase_date)
+
+        self.open_home_window()
+
+    def open_home_window(self):
+        from ui.HomeWindow import HomeWindow
+        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window.show()
+        self.close()
 
     def translate_type(self, type_french):
-        if type_french == "Ordinateur et accessoires":
+        type_french = type_french.lower()
+        if type_french == "ordinateur et accessoires":
             return "computer"
-        elif type_french == "Table":
+        elif type_french == "bureau":
             return "table"
-        elif type_french == "Chaise":
+        elif type_french == "chaise":
             return "chair"
-        elif type_french == "Micro-ondes":
+        elif type_french == "micro-ondes":
             return "microwave"
-        elif type_french == "Cafetière":
+        elif type_french == "cafetière":
             return "coffeemaker"
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MoveWindow()
-    window.show()
-    sys.exit(app.exec_())
+
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     window = MoveWindow()
+#     window.show()
+#     sys.exit(app.exec_())
