@@ -4,6 +4,7 @@ import random
 import os
 
 from iota import Iota, ProposedTransaction, Address, TryteString, Tag, Transaction
+from utils import configLoader
 
 
 class GraphAPI:
@@ -23,7 +24,9 @@ class GraphAPI:
         self.load_config()
 
     def load_config(self):
-        self.seed = self.log_in()
+        self.seed = "MXNORIXDL9FHQERMCURRETWCGOCJMOJFTLDWHEBJOFUQJALJMGCTVFTCTTAAKWVEKBIIAXUTQZ9FUGHXS"
+        #self.seed = configLoader.getSeed()
+
         self.file_name = self.create_file_name()
 
         self.raw_account_data = self.read_account_data()
@@ -61,29 +64,6 @@ class GraphAPI:
         file_name = seed_hash[:12]
         file_name += ".txt"
         return file_name
-
-    def log_in(self):
-        # raw_seed = input("LOG IN, enter your seed: ") # insert your seed here
-        raw_seed = "MXNORIXDL9FHQERMCURRETWCGOCJMOJFTLDWHEBJOFUQJALJMGCTVFTCTTAAKWVEKBIIAXUTQZ9FUGHXS"
-        raw_seed = raw_seed.upper()
-        raw_seed = list(raw_seed)
-        allowed = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ9")
-        seed = ""
-        i = 0
-        while i < len(raw_seed) and i < 81:
-            char = raw_seed[i]
-            if char not in allowed:
-                char = "9"
-                seed += char
-            else:
-                seed += str(char)
-            i += 1
-        while len(seed) < 81:
-            seed += "9"
-
-            self.create_seed_hash(seed)
-
-        return seed
 
     def read_account_data(self):
         """ Will try to open the account file.
