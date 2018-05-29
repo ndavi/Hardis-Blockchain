@@ -25,7 +25,6 @@ class GraphAPI:
     def load_config(self):
         self.seed = self.log_in()
         self.file_name = self.create_file_name()
-        file_path = os.path.abspath(self.file_name)
 
         self.raw_account_data = self.read_account_data()
         self.settings = self.raw_account_data['account_data'][0]['settings']
@@ -100,7 +99,7 @@ class GraphAPI:
                 data['account_data'] = []
                 data['account_data'].append({
                     'settings': [{'host': self.host, 'min_weight_magnitude': 14, 'units': "i"}],
-                    'address_data': [],
+                    'address_data': [{"address": "KGCKNRJDFDHBGKFMMEBFEXLIRUWGEDGZGMIHULJDQUGMJSXLXPECBQRO9ERGKDLDEXCVONWENYPKCCSJD", "checksum": "GUTBGOKBA"}],
                     'fal_balance': [{'f_index': 0, 'l_index': 0}],
                     'transfers_data': []
                 })
@@ -140,28 +139,42 @@ class GraphAPI:
 
     def print_results(self, results):
         """ Prints the given data """
-        for txn in results:
-            hash = str(txn.hash)
-            tag = str(txn.tag)
-            message = self.decode_message(str(txn.signature_message_fragment))
-            print("---------------------------------------------------------------------")
-            print("Type : "+tag.strip('9'))
-            print("Transaction hash : "+hash)
-            print("Data : "+message)
-            print("\n")
+        data = []
+        # hash = str(txn.hash)
+        # tag = str(txn.tag)
+        # print("Type : "+tag.strip('9'))
+        if results:
+            for transaction in results:
+                data.append(self.decode_message(str(transaction.signature_message_fragment)))
+        else:
+            data.append("No result to print")
+        return data
+
+    # def decode_message(self, message):
+    #     values = "9ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    #     if len(message) % 2 != 0:
+    #         return "Invalid data"
+    #     output = ""
+    #     for i in range(0, len(message), 2):
+    #         first_value = message[i]
+    #         second_value = message[i+1]
+    #         decimal_value = values.index(first_value) + values.index(second_value)*27
+    #         character = chr(decimal_value)
+    #         output = output + character
+    #     return output
 
     def decode_message(self, message):
-        values = "9ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        if len(message) % 2 != 0:
-            return "Invalid data"
-        output = ""
-        for i in range(0, len(message), 2):
-            first_value = message[i]
-            second_value = message[i+1]
-            decimal_value = values.index(first_value) + values.index(second_value)*27
-            character = chr(decimal_value)
-            output = output + character
-        return output
+        """ Decode trytes message in unicode string """
+        try:
+            msg = TryteString(message).encode('utf-8')
+            msg = msg.decode('utf-8')
+            msg_string = str(msg)
+            msg_string = msg_string[:len(msg_string) - 1]
+            nice_string = msg_string.replace('\x00', '')
+            return nice_string
+        except UnicodeDecodeError:
+            print("Invalid data")
+
 
     def generate_id(self, type_stream):
         random_id = random.randint(0, 99999)
@@ -225,7 +238,6 @@ class GraphAPI:
             change_address=deposit_address,
             #min_weight_magnitude=18,
         )
-        print("Time spent : "+str(fin-debut)+" s")
 
     # ---------------------------------------- Queries ------------------------------------
 
