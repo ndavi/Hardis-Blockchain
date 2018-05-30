@@ -4,6 +4,7 @@ import random
 import os
 
 from iota import Iota, ProposedTransaction, Address, TryteString, Tag, Transaction
+from iota.crypto.addresses import AddressGenerator
 from utils import configLoader
 
 
@@ -45,20 +46,6 @@ class GraphAPI:
         s = hashlib.sha256(seed.encode('utf-8'))
         return s.hexdigest()
 
-    def get_checksum(self, address):
-        """ Returns a sha256 hash of seed + address """
-        data = address + self.seed
-        s = hashlib.sha256(data)
-        return s.hexdigest()
-
-    def verify_checksum(self, checksum, address):
-        """ Verifies the integrity of an address and returns True or False """
-        actual_checksum = self.get_checksum(address)
-        if actual_checksum == checksum:
-            return True
-        else:
-            return False
-
     def create_file_name(self):
         seed_hash = self.create_seed_hash(self.seed)
         file_name = seed_hash[:12]
@@ -86,36 +73,6 @@ class GraphAPI:
                 json.dump(data, account_data)
                 print("Created new account file!")
                 return data
-
-    def get_deposit_address(self):
-        """ Gets the first address after the last address with balance.
-        If there is no saved address it will generate a new one """
-        try:
-            l_index = self.fal_balance[0]["l_index"]
-            if l_index == 0:
-                deposit_address = self.address_data[0]["address"]
-                return deposit_address
-
-            for p in self.address_data:
-                address = p["address"]
-                checksum = p["checksum"]
-                integrity = self.verify_checksum(checksum, address)
-                if p["index"] > l_index and integrity:
-                    deposit_address = p["address"]
-                    return deposit_address
-                elif not integrity:
-                    return "Invalid checksum!!!"
-            print("Generating address...")
-            self.generate_addresses(1)
-            for p in self.address_data:
-                address = p["address"]
-                checksum = p["checksum"]
-                integrity = self.verify_checksum(checksum, address)
-                if p["index"] > l_index and integrity:
-                    deposit_address = p["address"]
-                    return deposit_address
-        except:
-            "An error occurred while trying to get the deposit address"
 
     def print_results(self, results):
         """ Prints the given data """
