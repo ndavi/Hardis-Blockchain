@@ -89,7 +89,7 @@ class BlockChainAPI:
                 data.append("ID : " + transaction['key'] +
                             "\nData : " + self.from_hexa_to_data(transaction['data']))
         else:
-            data.append("No result to print")
+            data.append("No result found")
         return data
 
     # Transactions
@@ -119,7 +119,11 @@ class BlockChainAPI:
     # Queries
 
     def get_transactions_by_type(self, type_stream):
-        results = self.api.liststreamitems(type_stream, True, 100000)
+        results = []
+        streams = self.api.liststreams()
+        for stream in streams:
+            if stream['name'] == type_stream and stream['subscribed']:
+                results = self.api.liststreamitems(type_stream, True, 100000)
         results_number = len(results)
         print(str(results_number)+" results found in stream " + str(type_stream))
         return results

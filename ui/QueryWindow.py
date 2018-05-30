@@ -24,7 +24,8 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         parameter = str(self.type_menu.currentText())
         value = str(self.valeur_entree.text())
         if parameter == "Type de matériel":
-            results = self.api.get_transactions_by_type(value)
+            value_stream = self.translate_type(value)
+            results = self.api.get_transactions_by_type(value_stream)
         elif parameter == "ID":
             results = self.api.get_transactions_by_id(value)
         elif parameter == "Marque":
@@ -32,13 +33,15 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         elif parameter == "Personne responsable":
             results = self.api.get_transactions_by_owner(value)
         results = self.api.print_results(results)
+        if results[0] == "No result found":
+            results = ["Aucun résultat"]
         self.affichage.setText('\n'.join(list(results)))
 
     def translate_type(self, type_french):
         type_french = type_french.lower()
         if type_french == "ordinateur":
             return "computer"
-        elif type_french == "table":
+        elif type_french == "table" or type_french == "bureau":
             return "table"
         elif type_french == "chaise":
             return "chair"
@@ -49,8 +52,8 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         else:
             return type_french
 
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     window = QueryWindow()
-#     window.show()
-#     sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = QueryWindow("multichain", [100,100])
+    window.show()
+    sys.exit(app.exec_())

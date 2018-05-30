@@ -56,8 +56,8 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.new_window.show()
         self.close()
 
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     window = RegisterWindow()
-#     window.show()
-#     sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = RegisterWindow("multichain",[100,100])
+    window.show()
+    sys.exit(app.exec_())
