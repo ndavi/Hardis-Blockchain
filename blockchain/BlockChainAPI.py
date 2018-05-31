@@ -63,7 +63,7 @@ class BlockChainAPI:
 
     def from_parameters_to_data_move(self, new_owner, new_business_unit, new_team, date):
         return json.dumps({
-            "owner": new_owner,
+            "responsible person": new_owner,
             "business unit": new_business_unit,
             "team": new_team,
             "date of the change": date}, indent=4

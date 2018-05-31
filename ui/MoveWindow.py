@@ -1,8 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QDialog
 from PyQt5 import QtCore
 from graph.GraphAPI import GraphAPI
-from ui import moveUI
+from ui import moveUI, dialogmoveUI
 from blockchain.BlockChainAPI import BlockChainAPI
 import datetime
 
@@ -30,9 +30,14 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         team = str(self.type_txt_3.currentText())
         owner = str(self.responsable.text())
         purchase_date = str(self.dateDeplacement.date().day())+"-"+str(self.dateDeplacement.date().month())+"-"+str(self.dateDeplacement.date().year())
-        self.api.move_equipment(id_equip, type_english, owner, business_unit, team, purchase_date)
 
+        self.api.move_equipment(id_equip, type_english, owner, business_unit, team, purchase_date)
         self.open_home_window()
+        self.open_dialog()
+
+    def open_dialog(self):
+        self.dialog = MoveDialog()
+        self.dialog.show()
 
     def open_home_window(self):
         from ui.HomeWindow import HomeWindow
@@ -52,6 +57,12 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
             return "microwave"
         elif type_french == "cafetière":
             return "coffeemaker"
+
+
+class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):
+    def __init__(self, parent=None):
+        super(MoveDialog, self).__init__(parent)
+        self.setupUi(self)
 
 
 # if __name__ == "__main__":

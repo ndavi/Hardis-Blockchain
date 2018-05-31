@@ -130,7 +130,7 @@ class GraphAPI:
     def from_parameters_to_data_move(self, id_equip, new_owner, new_business_unit, new_team, date):
         return json.dumps({
             "id": id_equip,
-            "owner": new_owner,
+            "responsible person": new_owner,
             "business unit": new_business_unit,
             "team": new_team,
             "date of the change": date}, indent=4
