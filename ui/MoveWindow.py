@@ -21,6 +21,13 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.position = position
         self.move(self.position[0], self.position[1])
         self.Enregistrer.clicked.connect(self.move_equipment)
+        self.pushButton.clicked.connect(self.return_home)
+
+    def return_home(self):
+        from ui.HomeWindow import HomeWindow
+        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window.show()
+        self.close()
 
     def move_equipment(self):
         type_french = str(self.type_txt.currentText())

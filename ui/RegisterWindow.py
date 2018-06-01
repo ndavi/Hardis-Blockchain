@@ -23,6 +23,13 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.position = position
         self.move(self.position[0], self.position[1])
         self.Enregistrer.clicked.connect(self.register_equipment)
+        self.pushButton.clicked.connect(self.return_home)
+
+    def return_home(self):
+        from ui.HomeWindow import HomeWindow
+        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window.show()
+        self.close()
 
     def register_equipment(self):
         type_french = str(self.type_txt.currentText())
@@ -52,7 +59,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
             return "coffeemaker"
 
     def open_dialog(self):
-        self.dialog = RegisterDialog()
+        self.dialog = RegisterDialog(self.position)
         self.dialog.show()
 
     def open_home_window(self):
@@ -63,10 +70,10 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
 
 
 class RegisterDialog(QDialog, dialogUI.Ui_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self, position, parent=None):
         super(RegisterDialog, self).__init__(parent)
         self.setupUi(self)
-
+        self.move(position[0]+200,position[1]+200)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
