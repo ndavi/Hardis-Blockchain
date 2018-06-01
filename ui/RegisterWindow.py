@@ -34,6 +34,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
     def register_equipment(self):
         type_french = str(self.type_txt.currentText())
         type_english = self.translate_type(type_french)
+        identifier = str(self.Identifiant_txt.text())
         brand = str(self.Marque_txt.text())
         serial_number = str(self.NoSerie_txt.text())
         business_unit = str(self.type_txt_2.currentText())
@@ -41,7 +42,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         owner = str(self.Responsable_txt.text())
         purchase_date = str(self.Date.date().day())+"-"+str(self.Date.date().month())+"-"+str(self.Date.date().year())
 
-        self.api.register_equipment(type_english, brand, serial_number, purchase_date, business_unit, team, owner)
+        self.api.register_equipment(type_english, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
         self.open_home_window()
         self.open_dialog()
 

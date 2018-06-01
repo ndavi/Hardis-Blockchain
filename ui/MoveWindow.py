@@ -43,7 +43,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.open_dialog()
 
     def open_dialog(self):
-        self.dialog = MoveDialog()
+        self.dialog = MoveDialog(self.position)
         self.dialog.show()
 
     def open_home_window(self):
@@ -67,9 +67,10 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
 
 
 class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self, position, parent=None):
         super(MoveDialog, self).__init__(parent)
         self.setupUi(self)
+        self.move(position[0]+200, position[1]+200)
 
 
 # if __name__ == "__main__":

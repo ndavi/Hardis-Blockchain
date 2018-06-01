@@ -47,10 +47,6 @@ class BlockChainAPI:
 
     # Helpful functions
 
-    def generate_id(self, type_stream):
-        random_id = random.randint(0, 99999)
-        return type_stream + str(random_id)
-
     def from_parameters_to_data_register(self, brand, serial_number, purchase_date, business_unit, team, owner):
         return json.dumps({
             "brand": brand,
@@ -81,7 +77,6 @@ class BlockChainAPI:
             if not element:
                 results.remove(element)
 
-
     def print_results(self, results):
         data = []
         if results:
@@ -94,8 +89,7 @@ class BlockChainAPI:
 
     # Transactions
 
-    def register_equipment(self, type_stream, brand, serial_number, purchase_date, business_unit, team, owner):
-        id_equip = self.generate_id(type_stream)
+    def register_equipment(self, type_stream, id_equip, brand, serial_number, purchase_date, business_unit, team, owner):
         data = self.from_parameters_to_data_register(brand, serial_number, purchase_date, business_unit, team, owner)
         data_hexa = self.from_data_to_hexa(data)
         try:
@@ -108,8 +102,6 @@ class BlockChainAPI:
     def move_equipment(self, id_equip, type_stream, new_owner, new_business_unit, new_team, date):
         data = self.from_parameters_to_data_move(new_owner, new_business_unit, new_team, date)
         data_hexa = self.from_data_to_hexa(data)
-        print(data_hexa)
-        print(type(data_hexa))
         try:
             self.api.publish(type_stream, id_equip, data_hexa)
             print("Equipment with id " + str(id_equip) + " properly moved")

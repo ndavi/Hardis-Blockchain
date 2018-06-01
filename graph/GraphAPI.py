@@ -13,6 +13,7 @@ class GraphAPI:
     def __init__(self):
         self.api = None
         self.seed = None
+        self.address = None
         self.iota_node = None
         self.file_name = None
         self.raw_account_data = None
@@ -20,14 +21,14 @@ class GraphAPI:
         self.address_data = None
         self.fal_balance = None
         self.transfers_data = None
-        self.host = "https://walletservice.iota.community:443"
-        #self.host = "https://field.carriota.com:443"
+        #self.host = "https://walletservice.iota.community:443"
+        self.host = "https://field.carriota.com:443"
         self.load_config()
 
     def load_config(self):
         self.seed = "MXNORIXDL9FHQERMCURRETWCGOCJMOJFTLDWHEBJOFUQJALJMGCTVFTCTTAAKWVEKBIIAXUTQZ9FUGHXS"
         #self.seed = configLoader.getSeed()
-
+        self.address = "KGCKNRJDFDHBGKFMMEBFEXLIRUWGEDGZGMIHULJDQUGMJSXLXPECBQRO9ERGKDLDEXCVONWENYPKCCSJD"
         self.file_name = self.create_file_name()
 
         self.raw_account_data = self.read_account_data()
@@ -38,7 +39,7 @@ class GraphAPI:
         self.transfers_data = self.raw_account_data['account_data'][0]['transfers_data']
 
         #self.iota_node = self.settings[0]['host']
-        self.iota_node = "https://walletservice.iota.community:443"
+        self.iota_node = self.host
         self.api = Iota(self.iota_node, self.seed)
 
     def create_seed_hash(self, seed):
@@ -66,7 +67,7 @@ class GraphAPI:
                 data['account_data'] = []
                 data['account_data'].append({
                     'settings': [{'host': self.host, 'min_weight_magnitude': 14, 'units': "i"}],
-                    'address_data': [{"address": "KGCKNRJDFDHBGKFMMEBFEXLIRUWGEDGZGMIHULJDQUGMJSXLXPECBQRO9ERGKDLDEXCVONWENYPKCCSJD", "checksum": "GUTBGOKBA"}],
+                    'address_data': [{"address": self.address, "checksum": "GUTBGOKBA"}],
                     'fal_balance': [{'f_index': 0, 'l_index': 0}],
                     'transfers_data': []
                 })
@@ -112,11 +113,6 @@ class GraphAPI:
         except UnicodeDecodeError:
             print("Invalid data")
 
-
-    def generate_id(self, type_stream):
-        random_id = random.randint(0, 99999)
-        return type_stream + str(random_id)
-
     def from_parameters_to_data_register(self, id_equip, brand, serial_number, purchase_date, business_unit, team, owner):
         return json.dumps({
             "id": id_equip,
@@ -136,12 +132,11 @@ class GraphAPI:
             "date of the change": date}, indent=4
         )
 
-    def register_equipment(self, type_equip, brand, serial_number, purchase_date, business_unit, team, owner):
+    def register_equipment(self, type_equip, ID, brand, serial_number, purchase_date, business_unit, team, owner):
         """ Gets register transaction's information from the user """
-        id_equip = self.generate_id(type_equip)
         type_equip = type_equip.upper()
         type_equip = bytes(type_equip.encode('utf-8'))
-        message = self.from_parameters_to_data_register(id_equip, brand, serial_number, purchase_date, business_unit, team,
+        message = self.from_parameters_to_data_register(ID, brand, serial_number, purchase_date, business_unit, team,
                                                 owner)
         self.register_transaction(type_equip, message)
 
@@ -156,9 +151,8 @@ class GraphAPI:
         """ Prepares the transaction to be sent and uses IOTA API to send it into the public Tangle """
         print("Sending transfer, this can take a while...")
         transfer_value = 0
-        recipient_address = "KGCKNRJDFDHBGKFMMEBFEXLIRUWGEDGZGMIHULJDQUGMJSXLXPECBQRO9ERGKDLDEXCVONWENYPKCCSJDGUTBGOKBA"
+        recipient_address = self.address
         recipient_address_bytes = bytes(recipient_address.encode('utf-8'))
-        #deposit_address = self.get_deposit_address()
         bundle = []
         txn = \
             ProposedTransaction(
@@ -173,7 +167,6 @@ class GraphAPI:
             depth=7,
             transfers=bundle,
             change_address=deposit_address,
-            #min_weight_magnitude=18,
         )
 
     # ---------------------------------------- Queries ------------------------------------
