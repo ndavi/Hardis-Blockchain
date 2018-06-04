@@ -1,11 +1,8 @@
 import hashlib
 import json
-import random
-import os
 
 from iota import Iota, ProposedTransaction, Address, TryteString, Tag, Transaction
-from iota.crypto.addresses import AddressGenerator
-from utils import configLoader
+from utils.configLoader import ConfigLoader
 
 
 class GraphAPI:
@@ -14,66 +11,14 @@ class GraphAPI:
         self.api = None
         self.seed = None
         self.address = None
-        self.iota_node = None
-        self.file_name = None
-        self.raw_account_data = None
-        self.settings = None
-        self.address_data = None
-        self.fal_balance = None
-        self.transfers_data = None
-        #self.host = "https://walletservice.iota.community:443"
-        self.host = "https://field.carriota.com:443"
+        self.host = None
         self.load_config()
 
     def load_config(self):
-        self.seed = "MXNORIXDL9FHQERMCURRETWCGOCJMOJFTLDWHEBJOFUQJALJMGCTVFTCTTAAKWVEKBIIAXUTQZ9FUGHXS"
-        #self.seed = configLoader.getSeed()
-        self.address = "KGCKNRJDFDHBGKFMMEBFEXLIRUWGEDGZGMIHULJDQUGMJSXLXPECBQRO9ERGKDLDEXCVONWENYPKCCSJD"
-        self.file_name = self.create_file_name()
-
-        self.raw_account_data = self.read_account_data()
-        self.settings = self.raw_account_data['account_data'][0]['settings']
-        self.address_data = self.raw_account_data['account_data'][0]['address_data']
-        self.address = str(self.address_data[0]['address']) + str(self.address_data[0]['checksum'])
-        self.fal_balance = self.raw_account_data['account_data'][0]['fal_balance']
-        self.transfers_data = self.raw_account_data['account_data'][0]['transfers_data']
-
-        #self.iota_node = self.settings[0]['host']
-        self.iota_node = self.host
-        self.api = Iota(self.iota_node, self.seed)
-
-    def create_seed_hash(self, seed):
-        """ Returns a sha256 hash of the seed """
-        s = hashlib.sha256(seed.encode('utf-8'))
-        return s.hexdigest()
-
-    def create_file_name(self):
-        seed_hash = self.create_seed_hash(self.seed)
-        file_name = seed_hash[:12]
-        file_name += ".txt"
-        return file_name
-
-    def read_account_data(self):
-        """ Will try to open the account file.
-        In case the file doesn't exist it will create a new account file. """
-        try:
-
-            with open(self.file_name, 'r') as account_data:
-                data = json.load(account_data)
-                return data
-        except:
-            with open(self.file_name, 'w') as account_data:
-                data = {}
-                data['account_data'] = []
-                data['account_data'].append({
-                    'settings': [{'host': self.host, 'min_weight_magnitude': 14, 'units': "i"}],
-                    'address_data': [{"address": self.address, "checksum": "GUTBGOKBA"}],
-                    'fal_balance': [{'f_index': 0, 'l_index': 0}],
-                    'transfers_data': []
-                })
-                json.dump(data, account_data)
-                print("Created new account file!")
-                return data
+        self.host = ConfigLoader.getNode()
+        self.seed = ConfigLoader.getSeed()
+        self.address = ConfigLoader.getAddress()
+        self.api = Iota(self.host, self.seed)
 
     def print_results(self, results):
         """ Prints the given data """
@@ -87,19 +32,6 @@ class GraphAPI:
         else:
             data.append("No result to print")
         return data
-
-    # def decode_message(self, message):
-    #     values = "9ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    #     if len(message) % 2 != 0:
-    #         return "Invalid data"
-    #     output = ""
-    #     for i in range(0, len(message), 2):
-    #         first_value = message[i]
-    #         second_value = message[i+1]
-    #         decimal_value = values.index(first_value) + values.index(second_value)*27
-    #         character = chr(decimal_value)
-    #         output = output + character
-    #     return output
 
     def decode_message(self, message):
         """ Decode trytes message in unicode string """

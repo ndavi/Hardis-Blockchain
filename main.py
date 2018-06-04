@@ -1,5 +1,10 @@
 import os
 import argparse
+
+import sys
+from PyQt5.QtWidgets import QApplication
+
+from ui.ChooseWindow import ChooseWindow
 from utils import log
 from utils.configLoader import ConfigLoader
 from blockchain.BlockChainAPI import BlockChainAPI
@@ -25,5 +30,7 @@ if __name__ == '__main__':
     if args.daemon:
         program = MainDaemon()
     else:
-        program = MainProgram()
+        app = QApplication(sys.argv)
+        program = ChooseWindow()
+        program.start(app)
 
