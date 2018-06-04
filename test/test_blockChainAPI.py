@@ -91,6 +91,13 @@ class TestBlockChainAPI(TestCase):
                 found = True
         self.assertTrue(found)
 
+    def test_get_streams(self):
+        print(self.api.get_streams())
+
+    def test_get_id_by_type(self):
+        def_type = "computer"
+        print(self.api.get_id_by_type(def_type))
+
     def test_getByType(self):
         pass
 
@@ -101,7 +108,8 @@ class TestBlockChainAPI(TestCase):
         pass
 
     def test_getByOwner(self):
-        pass
+        owner = "OREY"
+        results = self.api.get_transactions_by_owner(owner)
 
     def test_getByTypeByID(self):
         type_stream = "test"

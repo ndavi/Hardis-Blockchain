@@ -236,3 +236,4 @@ class GraphAPI:
             if "\"id\": \"" + id_equip + "\"" in message:
                 results.append(txn)
         return results
+

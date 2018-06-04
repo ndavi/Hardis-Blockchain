@@ -17,11 +17,6 @@ class Ui_MainWindow(object):
         self.type_txt = QtWidgets.QComboBox(self.centralwidget)
         self.type_txt.setGeometry(QtCore.QRect(190, 150, 191, 31))
         self.type_txt.setObjectName("type_txt")
-        self.type_txt.addItem("")
-        self.type_txt.addItem("")
-        self.type_txt.addItem("")
-        self.type_txt.addItem("")
-        self.type_txt.addItem("")
         self.Titre = QtWidgets.QLabel(self.centralwidget)
         self.Titre.setGeometry(QtCore.QRect(160, 20, 561, 71))
         font = QtGui.QFont()
@@ -181,11 +176,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "HARDIS Matériel"))
-        self.type_txt.setItemText(0, _translate("MainWindow", "Ordinateur et accessoires"))
-        self.type_txt.setItemText(1, _translate("MainWindow", "Bureau"))
-        self.type_txt.setItemText(2, _translate("MainWindow", "Chaise"))
-        self.type_txt.setItemText(3, _translate("MainWindow", "Micro-ondes"))
-        self.type_txt.setItemText(4, _translate("MainWindow", "Cafetière"))
+
         self.Titre.setText(_translate("MainWindow", "Enregistrer un nouvel équipement"))
         self.Type.setText(_translate("MainWindow", "Type de matériel"))
         self.BU.setText(_translate("MainWindow", "BU"))

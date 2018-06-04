@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QDialog
+from PyQt5.QtWidgets import QMainWindow, QDialog, QApplication
 from PyQt5 import QtCore
 from graph.GraphAPI import GraphAPI
 from ui import moveUI, dialogmoveUI
@@ -14,14 +14,32 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.api_name = api
         if self.api_name == "multichain":
             self.api = BlockChainAPI()
+            self.streams = self.api.get_streams()
+            for stream in self.streams:
+                self.type_txt.addItem("")
+                self.type_txt.setItemText(self.streams.index(stream),
+                                          QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
         elif self.api_name == "iota":
             self.api = GraphAPI()
+
         date_now = datetime.datetime.now()
+
+        self.set_id_values()
+        self.type_txt.currentTextChanged.connect(self.set_id_values)
+
         self.dateDeplacement.setDate(QtCore.QDate(date_now.year, date_now.month, date_now.day))
         self.position = position
         self.move(self.position[0], self.position[1])
         self.Enregistrer.clicked.connect(self.move_equipment)
         self.pushButton.clicked.connect(self.return_home)
+
+    def set_id_values(self):
+        self.IDequipement.clear()
+        results_id = self.api.get_id_by_type(self.type_txt.currentText())
+        for result in results_id:
+            self.IDequipement.addItem("")
+            self.IDequipement.setItemText(results_id.index(result),
+                                      QtCore.QCoreApplication.translate("MainWindow", str(result)))
 
     def return_home(self):
         from ui.HomeWindow import HomeWindow
@@ -32,7 +50,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
     def move_equipment(self):
         type_french = str(self.type_txt.currentText())
         type_english = self.translate_type(type_french)
-        id_equip = str(self.IDequipement.text())
+        id_equip = str(self.IDequipement.currentText())
         business_unit = str(self.type_txt_2.currentText())
         team = str(self.type_txt_3.currentText())
         owner = str(self.responsable.text())
@@ -64,6 +82,8 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
             return "microwave"
         elif type_french == "cafetière":
             return "coffeemaker"
+        else:
+            return type_french
 
 
 class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):
@@ -73,8 +93,8 @@ class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):
         self.move(position[0]+200, position[1]+200)
 
 
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     window = MoveWindow()
-#     window.show()
-#     sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MoveWindow("multichain", [100,100])
+    window.show()
+    sys.exit(app.exec_())

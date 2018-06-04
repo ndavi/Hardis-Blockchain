@@ -11,13 +11,19 @@ import datetime
 class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
     def __init__(self, api, position, parent=None):
         super(RegisterWindow, self).__init__(parent)
-        self.setupUi(self)
         self.api = None
         self.api_name = api
+        self.setupUi(self)
+
         if self.api_name == "multichain":
             self.api = BlockChainAPI()
+            self.streams = self.api.get_streams()
+            for stream in self.streams:
+                self.type_txt.addItem("")
+                self.type_txt.setItemText(self.streams.index(stream), QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
         elif self.api_name == "iota":
             self.api = GraphAPI()
+
         date_now = datetime.datetime.now()
         self.Date.setDate(QtCore.QDate(date_now.year, date_now.month, date_now.day))
         self.position = position
@@ -58,6 +64,8 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
             return "microwave"
         elif type_french == "cafetière":
             return "coffeemaker"
+        else:
+            return type_french
 
     def open_dialog(self):
         self.dialog = RegisterDialog(self.position)

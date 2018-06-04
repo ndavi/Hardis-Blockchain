@@ -110,6 +110,23 @@ class BlockChainAPI:
 
     # Queries
 
+    def get_streams(self):
+        results = []
+        streams = self.api.liststreams()
+        for stream in streams:
+            if stream['subscribed'] and stream['name'] != 'root':
+                results.append(stream['name'])
+        return results
+
+    def get_id_by_type(self, type_stream):
+        ids = []
+        null_id = ["", " ", None]
+        transactions = self.api.liststreamitems(type_stream, True, 100000)
+        for tr in transactions:
+            if tr['key'] not in null_id:
+                ids.append(tr['key'])
+        return ids
+
     def get_transactions_by_type(self, type_stream):
         results = []
         streams = self.api.liststreams()
