@@ -23,6 +23,10 @@ class ChooseWindow(QMainWindow, Ui_Accueil):
         self.new_window.show()
         self.close()
 
+    def start(self, app):
+        window = ChooseWindow()
+        window.show()
+        sys.exit(app.exec_())
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
