@@ -15,9 +15,9 @@ class GraphAPI:
         self.load_config()
 
     def load_config(self):
-        self.host = ConfigLoader.getNode()
-        self.seed = ConfigLoader.getSeed()
-        self.address = ConfigLoader.getAddress()
+        self.host = ConfigLoader.getIotaNode()
+        self.seed = ConfigLoader.getIotaSeed()
+        self.address = ConfigLoader.getIotaAddress()
         self.api = Iota(self.host, self.seed)
 
     def print_results(self, results):
