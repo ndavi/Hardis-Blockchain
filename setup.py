@@ -6,7 +6,7 @@ path = sys.path
 executables = [Executable("main.py", base=base)]
 includeFiles = ['multichaind.exe', 'config.cfg']
 includes = []
-packages = ["idna"]
+packages = ["idna", "iota.crypto", "pkg_resources._vendor", "filters"]
 options = {
     'build_exe': {
         'packages': packages,
