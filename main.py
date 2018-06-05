@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication
 from ui.controllers.ChooseWindow import ChooseWindow
 from utils import log
 from utils.configLoader import ConfigLoader
-from blockchain.BlockChainAPI import BlockChainAPI
+from api.BlockChainAPI import BlockChainAPI
 
 logger = log.setup_custom_logger('root')
 

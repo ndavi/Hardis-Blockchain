@@ -1,5 +1,5 @@
 from unittest import TestCase
-from blockchain.BlockChainAPI import BlockChainAPI
+from api.BlockChainAPI import BlockChainAPI
 import json
 
 

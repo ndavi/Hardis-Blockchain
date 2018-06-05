@@ -1,5 +1,5 @@
 from unittest import TestCase
-from graph.GraphAPI import GraphAPI
+from api.GraphAPI import GraphAPI
 
 
 class TestGraphAPI(TestCase):
