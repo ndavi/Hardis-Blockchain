@@ -51,3 +51,12 @@ class TestGraphAPI(TestCase):
         new_owner = input("New person in charge : ")
         date = input("Date of this change : ")
         self.api.move_equipment(type_equip, id_equip, new_owner, new_business_unit, new_team, date)
+
+    def test_get_id_by_type(self):
+        print(self.api.get_id_by_type("computer"))
+
+    def test_get_streams(self):
+        print(self.api.get_streams())
+
+    def test_get_all_ids(self):
+        print(self.api.get_all_ids())
