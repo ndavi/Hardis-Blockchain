@@ -4,7 +4,7 @@ import argparse
 import sys
 from PyQt5.QtWidgets import QApplication
 
-from ui.ChooseWindow import ChooseWindow
+from ui.controllers.ChooseWindow import ChooseWindow
 from utils import log
 from utils.configLoader import ConfigLoader
 from blockchain.BlockChainAPI import BlockChainAPI
