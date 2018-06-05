@@ -18,7 +18,7 @@ class BlockChainAPI:
     def loadRpcInfo(self):
         logger = logging.getLogger('root')
         logger.info("Récupération des informations de connexion")
-        chain = ConfigLoader.getChainName()
+        chain = ConfigLoader.getBlockChainName()
         if platform.system() == "Windows":
             drive = os.getenv("SystemDrive")
             user = os.getlogin()
