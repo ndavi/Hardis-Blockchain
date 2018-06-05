@@ -14,16 +14,16 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.api_name = api
         if self.api_name == "multichain":
             self.api = BlockChainAPI()
-            self.streams = self.api.get_streams()
-            for stream in self.streams:
-                self.type_txt.addItem("")
-                self.type_txt.setItemText(self.streams.index(stream),
-                                          QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
         elif self.api_name == "iota":
             self.api = GraphAPI()
 
         date_now = datetime.datetime.now()
 
+        self.streams = self.api.get_streams()
+        for stream in self.streams:
+            self.type_txt.addItem("")
+            self.type_txt.setItemText(self.streams.index(stream),
+                                      QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
         self.set_id_values()
         self.type_txt.currentTextChanged.connect(self.set_id_values)
 

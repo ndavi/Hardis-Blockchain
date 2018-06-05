@@ -33,6 +33,11 @@ class GraphAPI:
             data.append("No result to print")
         return data
 
+    def clean_results(self, results):
+        for element in results:
+            if not element:
+                results.remove(element)
+
     def decode_message(self, message):
         """ Decode trytes message in unicode string """
         try:
@@ -170,8 +175,106 @@ class GraphAPI:
         return results
 
     def get_streams(self):
-        pass
+        types = []
+        address_as_bytes = [bytes(self.address.encode('utf-8'))]
+        raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
+        transactions_to_check = raw_transactions["hashes"]
+        for txn_hash in transactions_to_check:
+            txn_hash_as_bytes = bytes(txn_hash)
+            gt_result = self.api.get_trytes([txn_hash_as_bytes])
+            trytes = str(gt_result['trytes'][0])
+            txn = Transaction.from_tryte_string(trytes)
+            tag = str(txn.tag).replace("9","")
+            types.append(tag.capitalize())
+        types = list(set(types))
+        return types
+
+    def get_id_by_type(self, type_equip):
+        transactions = self.get_transactions_by_type(type_equip)
+        ids = []
+        for tr in transactions:
+            message = self.decode_message(str(tr.signature_message_fragment))
+            if not isinstance(message, dict):
+                if isinstance(message, str):
+                    if len(message) == 0:
+                        continue
+                    if message[0] != '{':
+                        continue
+                    message = json.loads(message)
+            if "id" in message:
+                ids.append(message['id'])
+        ids = list(set(ids))
+        self.clean_results(ids)
+        return ids
 
     def get_all_ids(self):
-        pass
+        ids = []
+        address_as_bytes = [bytes(self.address.encode('utf-8'))]
+        raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
+        transactions_to_check = raw_transactions["hashes"]
+        for txn_hash in transactions_to_check:
+            txn_hash_as_bytes = bytes(txn_hash)
+            gt_result = self.api.get_trytes([txn_hash_as_bytes])
+            trytes = str(gt_result['trytes'][0])
+            txn = Transaction.from_tryte_string(trytes)
+            message = self.decode_message(str(txn.signature_message_fragment))
+            if not isinstance(message, dict):
+                if isinstance(message, str):
+                    if len(message) == 0:
+                        continue
+                    if message[0] != '{':
+                        continue
+                    message = json.loads(message)
+            if "id" in message:
+                ids.append(message['id'])
+        ids = list(set(ids))
+        self.clean_results(ids)
+        return ids
 
+    def get_all_brands(self):
+        results = []
+        address_as_bytes = [bytes(self.address.encode('utf-8'))]
+        raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
+        transactions_to_check = raw_transactions["hashes"]
+        for txn_hash in transactions_to_check:
+            txn_hash_as_bytes = bytes(txn_hash)
+            gt_result = self.api.get_trytes([txn_hash_as_bytes])
+            trytes = str(gt_result['trytes'][0])
+            txn = Transaction.from_tryte_string(trytes)
+            message = self.decode_message(str(txn.signature_message_fragment))
+            if not isinstance(message, dict):
+                if isinstance(message, str):
+                    if len(message) == 0:
+                        continue
+                    if message[0] != '{':
+                        continue
+                    message = json.loads(message)
+            if "brand" in message:
+                results.append(message['brand'])
+        results = list(set(results))
+        self.clean_results(results)
+        return results
+
+    def get_all_owners(self):
+        results = []
+        address_as_bytes = [bytes(self.address.encode('utf-8'))]
+        raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
+        transactions_to_check = raw_transactions["hashes"]
+        for txn_hash in transactions_to_check:
+            txn_hash_as_bytes = bytes(txn_hash)
+            gt_result = self.api.get_trytes([txn_hash_as_bytes])
+            trytes = str(gt_result['trytes'][0])
+            txn = Transaction.from_tryte_string(trytes)
+            message = self.decode_message(str(txn.signature_message_fragment))
+            if not isinstance(message, dict):
+                if isinstance(message, str):
+                    if len(message) == 0:
+                        continue
+                    if message[0] != '{':
+                        continue
+                    message = json.loads(message)
+            if "owner" in message:
+                results.append(message['owner'])
+        results = list(set(results))
+        self.clean_results(results)
+        return results

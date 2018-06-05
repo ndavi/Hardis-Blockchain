@@ -123,6 +123,8 @@ class BlockChainAPI:
         transactions = self.api.liststreamitems(type_stream, True, 100000)
         for tr in transactions:
             ids.append(tr['key'])
+        ids = list(set(ids))
+        self.clean_results(ids)
         return ids
 
     def get_all_ids(self):
