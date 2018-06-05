@@ -120,12 +120,49 @@ class BlockChainAPI:
 
     def get_id_by_type(self, type_stream):
         ids = []
-        null_id = ["", " ", None]
         transactions = self.api.liststreamitems(type_stream, True, 100000)
         for tr in transactions:
-            if tr['key'] not in null_id:
-                ids.append(tr['key'])
+            ids.append(tr['key'])
         return ids
+
+    def get_all_ids(self):
+        results = []
+        streams = self.get_streams()
+        for stream in streams:
+            results.extend(self.get_id_by_type(stream))
+        results = list(set(results))
+        self.clean_results(results)
+        return results
+
+    def get_all_brands(self):
+        results = []
+        streams = self.get_streams()
+        for stream in streams:
+            transactions = self.api.liststreamitems(stream, True, 100000)
+            for tr in transactions:
+                data_hexa = tr['data']
+                data_txt = self.from_hexa_to_data(data_hexa)
+                data_json = json.loads(data_txt)
+                if "brand" in data_json:
+                    results.append(data_json['brand'])
+        results = list(set(results))
+        self.clean_results(results)
+        return results
+
+    def get_all_owners(self):
+        results = []
+        streams = self.get_streams()
+        for stream in streams:
+            transactions = self.api.liststreamitems(stream, True, 100000)
+            for tr in transactions:
+                data_hexa = tr['data']
+                data_txt = self.from_hexa_to_data(data_hexa)
+                data_json = json.loads(data_txt)
+                if "owner" in data_json:
+                    results.append(data_json['owner'])
+        results = list(set(results))
+        self.clean_results(results)
+        return results
 
     def get_transactions_by_type(self, type_stream):
         results = []

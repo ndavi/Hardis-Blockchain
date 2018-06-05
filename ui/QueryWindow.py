@@ -1,4 +1,6 @@
 import sys
+
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from graph.GraphAPI import GraphAPI
@@ -16,10 +18,31 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
             self.api = BlockChainAPI()
         elif self.api_name == "iota":
             self.api = GraphAPI()
+
+        self.set_values()
+        self.type_menu.currentTextChanged.connect(self.set_values)
+
         self.position = position
         self.move(self.position[0], self.position[1])
         self.Enregistrer.clicked.connect(self.get_transactions)
         self.pushButton.clicked.connect(self.return_home)
+
+    def set_values(self):
+        self.valeur_entree.clear()
+        current_txt = self.type_menu.currentText()
+        if current_txt == "Type de matériel":
+            results = self.api.get_streams()
+        elif current_txt == "ID":
+            results = self.api.get_all_ids()
+        elif current_txt == "Marque":
+            results = self.api.get_all_brands()
+        elif current_txt == "Personne responsable":
+            results = self.api.get_all_owners()
+        for result in results:
+            self.valeur_entree.addItem("")
+            self.valeur_entree.setItemText(results.index(result),
+                                           QtCore.QCoreApplication.translate("MainWindow", str(result).capitalize()))
+
 
     def return_home(self):
         from ui.HomeWindow import HomeWindow
@@ -29,7 +52,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
 
     def get_transactions(self):
         parameter = str(self.type_menu.currentText())
-        value = str(self.valeur_entree.text())
+        value = str(self.valeur_entree.currentText())
         if parameter == "Type de matériel":
             value_stream = self.translate_type(value)
             results = self.api.get_transactions_by_type(value_stream)

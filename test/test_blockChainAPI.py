@@ -98,6 +98,12 @@ class TestBlockChainAPI(TestCase):
         def_type = "computer"
         print(self.api.get_id_by_type(def_type))
 
+    def test_get_all_ids(self):
+        print(self.api.get_all_ids())
+
+    def test_get_all_brands(self):
+        print(self.api.get_all_brands())
+
     def test_getByType(self):
         pass
 

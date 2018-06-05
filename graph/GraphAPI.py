@@ -237,3 +237,9 @@ class GraphAPI:
                 results.append(txn)
         return results
 
+    def get_streams(self):
+        pass
+
+    def get_all_ids(self):
+        pass
+

@@ -59,7 +59,7 @@ class Ui_Accueil(object):
         font.setPointSize(12)
         self.chercher.setFont(font)
         self.chercher.setObjectName("chercher")
-        self.valeur_entree = QtWidgets.QLineEdit(self.centralwidget)
+        self.valeur_entree = QtWidgets.QComboBox(self.centralwidget)
         self.valeur_entree.setGeometry(QtCore.QRect(570, 140, 181, 31))
         self.valeur_entree.setObjectName("valeur_entree")
         self.valeur = QtWidgets.QLabel(self.centralwidget)
