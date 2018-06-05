@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import QMainWindow, QDialog, QApplication
 from PyQt5 import QtCore
 from graph.GraphAPI import GraphAPI
-from ui import moveUI, dialogmoveUI
+from ui.views import moveUI, dialogmoveUI
 from blockchain.BlockChainAPI import BlockChainAPI
 import datetime
 
@@ -42,7 +42,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
                                       QtCore.QCoreApplication.translate("MainWindow", str(result)))
 
     def return_home(self):
-        from ui.HomeWindow import HomeWindow
+        from ui.controllers.HomeWindow import HomeWindow
         self.new_window = HomeWindow(self.api_name, self.position)
         self.new_window.show()
         self.close()
@@ -65,7 +65,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.dialog.show()
 
     def open_home_window(self):
-        from ui.HomeWindow import HomeWindow
+        from ui.controllers.HomeWindow import HomeWindow
         self.new_window = HomeWindow(self.api_name, self.position)
         self.new_window.show()
         self.close()

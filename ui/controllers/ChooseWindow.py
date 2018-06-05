@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from ui.chooseapiUI import Ui_Accueil
-from ui.HomeWindow import HomeWindow
+from ui.views.chooseapiUI import Ui_Accueil
+from ui.controllers.HomeWindow import HomeWindow
 
 
 class ChooseWindow(QMainWindow, Ui_Accueil):

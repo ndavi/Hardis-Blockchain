@@ -2,11 +2,11 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from graph.GraphAPI import GraphAPI
-from ui import accueilUI, moveUI, queryUI
+from ui.views import accueilUI, moveUI, queryUI
 from blockchain.BlockChainAPI import BlockChainAPI
-from ui.MoveWindow import MoveWindow
-from ui.QueryWindow import QueryWindow
-from ui.RegisterWindow import RegisterWindow
+from ui.controllers.MoveWindow import MoveWindow
+from ui.controllers.QueryWindow import QueryWindow
+from ui.controllers.RegisterWindow import RegisterWindow
 
 
 class HomeWindow(QMainWindow, accueilUI.Ui_Accueil):

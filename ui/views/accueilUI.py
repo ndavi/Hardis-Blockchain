@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ophelia/Documents/Qt_Projets/Appli/chooseapi.ui'
+# Form implementation generated from reading ui file '/home/ophelia/Documents/Qt_Projets/Appli/accueil.ui'
 #
 # Created by: PyQt5 UI code generator 5.5.1
 #
@@ -20,27 +20,27 @@ class Ui_Accueil(object):
         font.setPointSize(22)
         self.Title.setFont(font)
         self.Title.setObjectName("Title")
-        self.Multichain = QtWidgets.QPushButton(self.centralwidget)
-        self.Multichain.setGeometry(QtCore.QRect(240, 280, 171, 101))
-        self.Multichain.setObjectName("Multichain")
-        self.IOTA = QtWidgets.QPushButton(self.centralwidget)
-        self.IOTA.setGeometry(QtCore.QRect(430, 280, 171, 101))
-        self.IOTA.setObjectName("IOTA")
+        self.Register = QtWidgets.QPushButton(self.centralwidget)
+        self.Register.setGeometry(QtCore.QRect(240, 180, 171, 101))
+        self.Register.setObjectName("Register")
+        self.Move = QtWidgets.QPushButton(self.centralwidget)
+        self.Move.setGeometry(QtCore.QRect(430, 180, 171, 101))
+        self.Move.setObjectName("Move")
+        self.Empty = QtWidgets.QPushButton(self.centralwidget)
+        self.Empty.setGeometry(QtCore.QRect(430, 300, 171, 101))
+        self.Empty.setObjectName("Empty")
+        self.Query = QtWidgets.QPushButton(self.centralwidget)
+        self.Query.setGeometry(QtCore.QRect(240, 300, 171, 101))
+        self.Query.setObjectName("Query")
         self.logo = QtWidgets.QLabel(self.centralwidget)
         self.logo.setGeometry(QtCore.QRect(10, 10, 131, 71))
         self.logo.setMaximumSize(QtCore.QSize(282, 160))
         self.logo.setSizeIncrement(QtCore.QSize(1, 2))
         self.logo.setText("")
-        self.logo.setPixmap(QtGui.QPixmap("../../Hardis-Blockchain/logo.png"))
+        self.logo.setPixmap(QtGui.QPixmap("images/logo.png"))
         self.logo.setScaledContents(True)
         self.logo.setWordWrap(False)
         self.logo.setObjectName("logo")
-        self.Techno = QtWidgets.QLabel(self.centralwidget)
-        self.Techno.setGeometry(QtCore.QRect(200, 190, 441, 71))
-        font = QtGui.QFont()
-        font.setPointSize(17)
-        self.Techno.setFont(font)
-        self.Techno.setObjectName("Techno")
         Accueil.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Accueil)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 845, 22))
@@ -81,11 +81,13 @@ class Ui_Accueil(object):
         _translate = QtCore.QCoreApplication.translate
         Accueil.setWindowTitle(_translate("Accueil", "MainWindow"))
         self.Title.setText(_translate("Accueil", "<html><head/><body><p align=\"center\">HARDIS Matériel</p></body></html>"))
-        self.Multichain.setText(_translate("Accueil", "Multichain\n"
-"(Blockchain)"))
-        self.IOTA.setText(_translate("Accueil", "IOTA\n"
-"(Graphe DAG)"))
-        self.Techno.setText(_translate("Accueil", "<html><head/><body><p align=\"center\">Quelle technologie voulez-vous utiliser ?</p></body></html>"))
+        self.Register.setText(_translate("Accueil", " Enregistrer \n"
+"un équipement"))
+        self.Move.setText(_translate("Accueil", "Déplacer \n"
+"un équipement"))
+        self.Empty.setText(_translate("Accueil", "Paramètres"))
+        self.Query.setText(_translate("Accueil", "Consulter le\n"
+" matériel enregistré"))
         self.menuHardis_Materiel.setTitle(_translate("Accueil", "Accueil"))
         self.menuEnregistrer_materiel.setTitle(_translate("Accueil", "Opérations"))
         self.actionEnregistrer_mat_riel.setText(_translate("Accueil", "Enregistrer matériel"))

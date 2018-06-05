@@ -4,7 +4,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from graph.GraphAPI import GraphAPI
-from ui import queryUI
+from ui.views import queryUI
 from blockchain.BlockChainAPI import BlockChainAPI
 
 
@@ -45,7 +45,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
 
 
     def return_home(self):
-        from ui.HomeWindow import HomeWindow
+        from ui.controllers.HomeWindow import HomeWindow
         self.new_window = HomeWindow(self.api_name, self.position)
         self.new_window.show()
         self.close()

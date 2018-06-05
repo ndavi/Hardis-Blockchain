@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from PyQt5 import QtCore
 
 from graph.GraphAPI import GraphAPI
-from ui import registerUI, dialogUI
+from ui.views import registerUI, dialogUI
 from blockchain.BlockChainAPI import BlockChainAPI
 import datetime
 
@@ -32,7 +32,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.pushButton.clicked.connect(self.return_home)
 
     def return_home(self):
-        from ui.HomeWindow import HomeWindow
+        from ui.controllers.HomeWindow import HomeWindow
         self.new_window = HomeWindow(self.api_name, self.position)
         self.new_window.show()
         self.close()
@@ -72,7 +72,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.dialog.show()
 
     def open_home_window(self):
-        from ui.HomeWindow import HomeWindow
+        from ui.controllers.HomeWindow import HomeWindow
         self.new_window = HomeWindow(self.api_name, self.position)
         self.new_window.show()
         self.close()
@@ -84,8 +84,9 @@ class RegisterDialog(QDialog, dialogUI.Ui_Dialog):
         self.setupUi(self)
         self.move(position[0]+200,position[1]+200)
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = RegisterWindow("multichain",[100,100])
+    window = RegisterWindow("multichain", [100, 100])
     window.show()
     sys.exit(app.exec_())
