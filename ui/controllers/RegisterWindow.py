@@ -2,9 +2,9 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from PyQt5 import QtCore
 
-from graph.GraphAPI import GraphAPI
+from api.GraphAPI import GraphAPI
 from ui.views import registerUI, dialogUI
-from blockchain.BlockChainAPI import BlockChainAPI
+from api.BlockChainAPI import BlockChainAPI
 import datetime
 
 

@@ -1,9 +1,8 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QMainWindow
 
-from graph.GraphAPI import GraphAPI
-from ui.views import accueilUI, moveUI, queryUI
-from blockchain.BlockChainAPI import BlockChainAPI
+from api.GraphAPI import GraphAPI
+from ui.views import accueilUI
+from api.BlockChainAPI import BlockChainAPI
 from ui.controllers.MoveWindow import MoveWindow
 from ui.controllers.QueryWindow import QueryWindow
 from ui.controllers.RegisterWindow import RegisterWindow

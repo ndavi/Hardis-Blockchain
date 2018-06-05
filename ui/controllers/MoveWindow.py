@@ -1,9 +1,9 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QDialog, QApplication
 from PyQt5 import QtCore
-from graph.GraphAPI import GraphAPI
+from api.GraphAPI import GraphAPI
 from ui.views import moveUI, dialogmoveUI
-from blockchain.BlockChainAPI import BlockChainAPI
+from api.BlockChainAPI import BlockChainAPI
 import datetime
 
 class MoveWindow(QMainWindow, moveUI.Ui_Accueil):

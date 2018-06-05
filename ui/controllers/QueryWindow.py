@@ -3,9 +3,9 @@ import sys
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
-from graph.GraphAPI import GraphAPI
+from api.GraphAPI import GraphAPI
 from ui.views import queryUI
-from blockchain.BlockChainAPI import BlockChainAPI
+from api.BlockChainAPI import BlockChainAPI
 
 
 class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
