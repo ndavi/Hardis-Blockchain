@@ -276,5 +276,4 @@ class GraphAPI:
             if "owner" in message:
                 results.append(message['owner'])
         results = list(set(results))
-        self.clean_results(results)
         return results

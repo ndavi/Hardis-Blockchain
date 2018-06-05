@@ -163,7 +163,6 @@ class BlockChainAPI:
                 if "owner" in data_json:
                     results.append(data_json['owner'])
         results = list(set(results))
-        self.clean_results(results)
         return results
 
     def get_transactions_by_type(self, type_stream):
