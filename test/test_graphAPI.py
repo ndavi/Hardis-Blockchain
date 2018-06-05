@@ -60,3 +60,9 @@ class TestGraphAPI(TestCase):
 
     def test_get_all_ids(self):
         print(self.api.get_all_ids())
+
+    def test_get_all_brands(self):
+        print(self.api.get_all_brands())
+
+    def test_get_all_owners(self):
+        print(self.api.get_all_owners())
