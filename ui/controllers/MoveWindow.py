@@ -1,16 +1,22 @@
 import sys
+
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QDialog, QApplication
 from PyQt5 import QtCore
 from api.GraphAPI import GraphAPI
 from ui.views import moveUI, dialogmoveUI
 from api.BlockChainAPI import BlockChainAPI
 import datetime
+import threading
+
+from utils.Worker import Worker, QThreadPool
+
 
 class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
+
     def __init__(self, api, position, parent=None):
         super(MoveWindow, self).__init__(parent)
         self.setupUi(self)
-        self.api = None
         self.api_name = api
         if self.api_name == "multichain":
             self.api = BlockChainAPI()
@@ -18,13 +24,10 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
             self.api = GraphAPI()
 
         date_now = datetime.datetime.now()
+        self.threadpool = QThreadPool()
 
-        self.streams = self.api.get_streams()
-        for stream in self.streams:
-            self.type_txt.addItem("")
-            self.type_txt.setItemText(self.streams.index(stream),
-                                      QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
-        self.set_id_values()
+
+        self.get_types()
         self.type_txt.currentTextChanged.connect(self.set_id_values)
 
         self.dateDeplacement.setDate(QtCore.QDate(date_now.year, date_now.month, date_now.day))
@@ -33,9 +36,27 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.Enregistrer.clicked.connect(self.move_equipment)
         self.pushButton.clicked.connect(self.return_home)
 
+    def get_types(self):
+        worker = Worker(self.api.get_streams)
+        worker.signals.result.connect(self.get_types_received)
+        self.threadpool.start(worker)
+
+    @pyqtSlot(object)
+    def get_types_received(self, streams):
+        for stream in streams:
+            self.type_txt.addItem("")
+            self.type_txt.setItemText(streams.index(stream),
+                                      QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
+        self.set_id_values()
+
     def set_id_values(self):
         self.IDequipement.clear()
-        results_id = self.api.get_id_by_type(self.type_txt.currentText())
+        worker = Worker(self.api.get_id_by_type, self.type_txt.currentText())
+        worker.signals.result.connect(self.set_id_values_received)
+        self.threadpool.start(worker)
+
+    @pyqtSlot(object)
+    def set_id_values_received(self, results_id):
         for result in results_id:
             self.IDequipement.addItem("")
             self.IDequipement.setItemText(results_id.index(result),

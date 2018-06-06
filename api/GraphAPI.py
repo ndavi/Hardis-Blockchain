@@ -1,6 +1,7 @@
 import hashlib
 import json
 
+from PyQt5.QtCore import pyqtSignal
 from iota import Iota, ProposedTransaction, Address, TryteString, Tag, Transaction
 from utils.configLoader import ConfigLoader
 
