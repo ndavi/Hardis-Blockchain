@@ -190,8 +190,10 @@ class GraphAPI:
         return types
 
     def get_id_by_type(self, type_equip):
-        transactions = self.get_transactions_by_type(type_equip)
         ids = []
+        transactions = []
+        if type_equip:
+            transactions = self.get_transactions_by_type(type_equip)
         for tr in transactions:
             message = self.decode_message(str(tr.signature_message_fragment))
             if not isinstance(message, dict):
@@ -211,7 +213,9 @@ class GraphAPI:
         ids = []
         address_as_bytes = [bytes(self.address.encode('utf-8'))]
         raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
-        transactions_to_check = raw_transactions["hashes"]
+        transactions_to_check = []
+        if raw_transactions:
+            transactions_to_check = raw_transactions["hashes"]
         for txn_hash in transactions_to_check:
             txn_hash_as_bytes = bytes(txn_hash)
             gt_result = self.api.get_trytes([txn_hash_as_bytes])
@@ -235,7 +239,9 @@ class GraphAPI:
         results = []
         address_as_bytes = [bytes(self.address.encode('utf-8'))]
         raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
-        transactions_to_check = raw_transactions["hashes"]
+        transactions_to_check = []
+        if raw_transactions:
+            transactions_to_check = raw_transactions["hashes"]
         for txn_hash in transactions_to_check:
             txn_hash_as_bytes = bytes(txn_hash)
             gt_result = self.api.get_trytes([txn_hash_as_bytes])

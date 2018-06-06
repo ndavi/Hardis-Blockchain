@@ -120,7 +120,9 @@ class BlockChainAPI:
 
     def get_id_by_type(self, type_stream):
         ids = []
-        transactions = self.api.liststreamitems(type_stream, True, 100000)
+        transactions = []
+        if type_stream:
+            transactions = self.api.liststreamitems(type_stream, True, 100000)
         for tr in transactions:
             ids.append(tr['key'])
         ids = list(set(ids))
