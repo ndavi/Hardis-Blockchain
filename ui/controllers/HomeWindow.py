@@ -20,7 +20,7 @@ class HomeWindow(QMainWindow, accueilUI.Ui_Accueil):
             self.api = GraphAPI()
         self.position = position
         self.move(self.position[0], self.position[1])
-
+        self.Empty.setEnabled(False)
         self.Register.clicked.connect(self.open_register_window)
         self.Move.clicked.connect(self.open_move_window)
         self.Query.clicked.connect(self.open_query_window)
