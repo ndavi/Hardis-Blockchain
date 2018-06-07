@@ -57,7 +57,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         for result in results:
             self.valeur_entree.addItem("")
             self.valeur_entree.setItemText(results.index(result),
-                                           QtCore.QCoreApplication.translate("MainWindow", str(result).capitalize()))
+                                           QtCore.QCoreApplication.translate("MainWindow", str(result)))
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
@@ -71,17 +71,16 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         parameter = str(self.type_menu.currentText())
         value = str(self.valeur_entree.currentText())
         if parameter == "Type de matériel":
-            value_stream = self.translate_type(value)
-            worker = Worker(self.api.get_transactions_by_type, value_stream)
+            worker = Worker(self.api.get_transactions_by_type, value)
             worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "ID":
-            worker = Worker(self.api.get_transactions_by_id, value.lower())
+            worker = Worker(self.api.get_transactions_by_id, value)
             worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "Marque":
             worker = Worker(self.api.get_transactions_by_brand, value)
             worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "Personne responsable":
-            worker = Worker(self.api.get_transactions_by_owner, value.upper())
+            worker = Worker(self.api.get_transactions_by_owner, value)
             worker.signals.result.connect(self.get_transactions_received)
         self.threadpool.start(worker)
 
@@ -93,21 +92,6 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         if results[0] == "No result found":
             results = ["Aucun résultat"]
         self.affichage.setText('\n'.join(list(results)))
-
-    def translate_type(self, type_french):
-        type_french = type_french.lower()
-        if type_french == "ordinateur":
-            return "computer"
-        elif type_french == "table" or type_french == "bureau":
-            return "table"
-        elif type_french == "chaise":
-            return "chair"
-        elif type_french == "micro-ondes":
-            return "microwave"
-        elif type_french == "cafetière":
-            return "coffeemaker"
-        else:
-            return type_french
 
 
 if __name__ == "__main__":

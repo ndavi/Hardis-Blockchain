@@ -54,7 +54,8 @@ class BlockChainAPI:
             "date of purchase": purchase_date,
             "business unit": business_unit,
             "team": team,
-            "responsible person": owner}, indent=4
+            "responsible person": owner,
+            "action": "register"}, indent=4
         )
 
     def from_parameters_to_data_move(self, new_owner, new_business_unit, new_team, date):
@@ -62,7 +63,8 @@ class BlockChainAPI:
             "responsible person": new_owner,
             "business unit": new_business_unit,
             "team": new_team,
-            "date of the change": date}, indent=4
+            "date of the change": date,
+            "action": "move"}, indent=4
         )
 
     def from_data_to_hexa(self, data):
@@ -78,14 +80,32 @@ class BlockChainAPI:
                 results.remove(element)
 
     def print_results(self, results):
-        data = []
+        data_to_print = []
         if results:
             for transaction in results:
-                data.append("ID : " + transaction['key'] +
-                            "\nData : " + self.from_hexa_to_data(transaction['data']))
+                data = self.from_hexa_to_data(transaction['data'])
+                data_json = json.loads(data)
+                if data_json['action'] == "register":
+                    data_to_print.append("Enregistrement ID : " + transaction['key'] +
+                                         "\nMarque : " + data_json['brand'] +
+                                         "\nNuméro de série : " + data_json['serial number'] +
+                                         "\nDate d'achat : " + data_json['date of purchase'] +
+                                         "\nBusiness unit : " + data_json['business unit'] +
+                                         "\nEquipe : " + data_json['team'] +
+                                         "\nResponsable : " + data_json['responsible person'] +
+                                         "\n"
+                                         )
+                elif data_json['action'] == "move":
+                    data_to_print.append("Déplacement ID : " + transaction['key'] +
+                                         "\nDate du déplacement : " + data_json['date of the change'] +
+                                         "\nNouvelle business unit : " + data_json['business unit'] +
+                                         "\nNouvelle équipe : " + data_json['team'] +
+                                         "\nNouveau responsable : " + data_json['responsible person'] +
+                                         "\n"
+                                         )
         else:
-            data.append("No result found")
-        return data
+                data_to_print.append("Aucun résultat")
+        return data_to_print
 
     # Transactions
 
@@ -166,8 +186,8 @@ class BlockChainAPI:
                 data_hexa = tr['data']
                 data_txt = self.from_hexa_to_data(data_hexa)
                 data_json = json.loads(data_txt)
-                if "owner" in data_json:
-                    results.append(data_json['owner'])
+                if "responsible person" in data_json:
+                    results.append(data_json['responsible person'])
         results = list(set(results))
         self.clean_results(results)
         results.sort()

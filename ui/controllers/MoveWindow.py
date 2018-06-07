@@ -49,7 +49,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         for stream in streams:
             self.type_txt.addItem("")
             self.type_txt.setItemText(streams.index(stream),
-                                      QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
+                                      QtCore.QCoreApplication.translate("MainWindow", str(stream)))
         self.set_id_values()
 
     def set_id_values(self):
@@ -76,15 +76,14 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.close()
 
     def move_equipment(self):
-        type_french = str(self.type_txt.currentText())
-        type_english = self.translate_type(type_french)
+        type_equip = str(self.type_txt.currentText())
         id_equip = str(self.IDequipement.currentText())
         business_unit = str(self.type_txt_2.currentText())
         team = str(self.type_txt_3.currentText())
         owner = str(self.responsable.text())
         purchase_date = str(self.dateDeplacement.date().day())+"-"+str(self.dateDeplacement.date().month())+"-"+str(self.dateDeplacement.date().year())
 
-        self.api.move_equipment(id_equip, type_english, owner, business_unit, team, purchase_date)
+        self.api.move_equipment(id_equip, type_equip, owner, business_unit, team, purchase_date)
         self.open_home_window()
         self.open_dialog()
 
@@ -97,21 +96,6 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.new_window = HomeWindow(self.api_name, self.position)
         self.new_window.show()
         self.close()
-
-    def translate_type(self, type_french):
-        type_french = type_french.lower()
-        if type_french == "ordinateur et accessoires":
-            return "computer"
-        elif type_french == "bureau":
-            return "table"
-        elif type_french == "chaise":
-            return "chair"
-        elif type_french == "micro-ondes":
-            return "microwave"
-        elif type_french == "cafetière":
-            return "coffeemaker"
-        else:
-            return type_french
 
 
 class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):

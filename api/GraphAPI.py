@@ -30,8 +30,35 @@ class GraphAPI:
         if results:
             for transaction in results:
                 data.append(self.decode_message(str(transaction.signature_message_fragment)))
+
+                message = self.decode_message(str(transaction.signature_message_fragment))
+                if not isinstance(message, dict):
+                    if isinstance(message, str):
+                        if len(message) == 0:
+                            continue
+                        if message[0] != '{':
+                            continue
+                        message = json.loads(message)
+                if message['action'] == "register":
+                    data.append("Enregistrement ID : " + message['id'] +
+                                "\nMarque : " + message['brand'] +
+                                "\nNuméro de série : " + message['serial number'] +
+                                "\nDate d'achat : " + message['date of purchase'] +
+                                "\nBusiness unit : " + message['business unit'] +
+                                "\nEquipe : " + message['team'] +
+                                "\nResponsable : " + message['responsible person'] +
+                                "\n"
+                                )
+                elif message['action'] == "move":
+                    data.append("Déplacement ID : " + message['id'] +
+                                "\nDate du déplacement : " + message['date of the change'] +
+                                "\nNouvelle business unit : " + message['business unit'] +
+                                "\nNouvelle équipe : " + message['team'] +
+                                "\nNouveau responsable : " + message['responsible person'] +
+                                "\n"
+                                )
         else:
-            data.append("No result to print")
+            data.append("Aucun résultat")
         return data
 
     def clean_results(self, results):
@@ -59,7 +86,8 @@ class GraphAPI:
             "date of purchase": purchase_date,
             "business unit": business_unit,
             "team": team,
-            "responsible person": owner}, indent=4)
+            "responsible person": owner,
+            "action": "register"}, indent=4)
 
     def from_parameters_to_data_move(self, id_equip, new_owner, new_business_unit, new_team, date):
         return json.dumps({
@@ -67,8 +95,12 @@ class GraphAPI:
             "responsible person": new_owner,
             "business unit": new_business_unit,
             "team": new_team,
-            "date of the change": date}, indent=4
-        )
+            "date of the change": date,
+            "action": "move"}, indent=4)
+
+    def add_new_type(self, type_equip):
+        tag = bytes(type_equip.upper().encode('utf-8'))
+        self.register_transaction(tag, "")
 
     def register_equipment(self, type_equip, ID, brand, serial_number, purchase_date, business_unit, team, owner):
         """ Gets register transaction's information from the user """
@@ -88,23 +120,20 @@ class GraphAPI:
     def register_transaction(self, type_equip, user_message):
         """ Prepares the transaction to be sent and uses IOTA API to send it into the public Tangle """
         print("Sending transfer, this can take a while...")
-        transfer_value = 0
-        recipient_address = self.address
-        recipient_address_bytes = bytes(recipient_address.encode('utf-8'))
+        recipient_address_bytes = bytes(self.address.encode('utf-8'))
         bundle = []
         txn = \
             ProposedTransaction(
                 address=Address(recipient_address_bytes),
                 message=TryteString.from_string(user_message),
                 tag=Tag(type_equip),
-                value=transfer_value,
+                value=0,
             )
         bundle.append(txn)
-        deposit_address = str(recipient_address)
         self.api.send_transfer(
             depth=7,
             transfers=bundle,
-            change_address=deposit_address,
+            change_address=str(self.address),
         )
 
     # ---------------------------------------- Queries ------------------------------------
@@ -285,9 +314,9 @@ class GraphAPI:
                     if message[0] != '{':
                         continue
                     message = json.loads(message)
-            if "owner" in message:
-                results.append(message['owner'])
+            if "responsible person" in message:
+                results.append(message['responsible person'])
         results = list(set(results))
-        self.clean_results(types)
+        self.clean_results(results)
         results.sort()
         return results

@@ -48,7 +48,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         for stream in streams:
             self.type_txt.addItem("")
             self.type_txt.setItemText(streams.index(stream),
-                                      QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
+                                      QtCore.QCoreApplication.translate("MainWindow", str(stream)))
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
@@ -57,8 +57,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.close()
 
     def register_equipment(self):
-        type_french = str(self.type_txt.currentText())
-        type_english = self.translate_type(type_french)
+        type_equip = str(self.type_txt.currentText())
         identifier = str(self.Identifiant_txt.text())
         brand = str(self.Marque_txt.text())
         serial_number = str(self.NoSerie_txt.text())
@@ -67,24 +66,9 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         owner = str(self.Responsable_txt.text())
         purchase_date = str(self.Date.date().day())+"-"+str(self.Date.date().month())+"-"+str(self.Date.date().year())
 
-        self.api.register_equipment(type_english, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
+        self.api.register_equipment(type_equip, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
         self.open_home_window()
         self.open_dialog()
-
-    def translate_type(self, type_french):
-        type_french = type_french.lower()
-        if type_french == "ordinateur et accessoires":
-            return "computer"
-        elif type_french == "bureau":
-            return "table"
-        elif type_french == "chaise":
-            return "chair"
-        elif type_french == "micro-ondes":
-            return "microwave"
-        elif type_french == "cafetière":
-            return "coffeemaker"
-        else:
-            return type_french
 
     def open_dialog(self):
         self.dialog = RegisterDialog(self.position)
