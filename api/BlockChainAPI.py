@@ -116,6 +116,7 @@ class BlockChainAPI:
         for stream in streams:
             if stream['subscribed'] and stream['name'] != 'root':
                 results.append(stream['name'])
+        results.sort()
         return results
 
     def get_id_by_type(self, type_stream):
@@ -127,6 +128,7 @@ class BlockChainAPI:
             ids.append(tr['key'])
         ids = list(set(ids))
         self.clean_results(ids)
+        ids.sort()
         return ids
 
     def get_all_ids(self):
@@ -136,6 +138,7 @@ class BlockChainAPI:
             results.extend(self.get_id_by_type(stream))
         results = list(set(results))
         self.clean_results(results)
+        results.sort()
         return results
 
     def get_all_brands(self):
@@ -151,6 +154,7 @@ class BlockChainAPI:
                     results.append(data_json['brand'])
         results = list(set(results))
         self.clean_results(results)
+        results.sort()
         return results
 
     def get_all_owners(self):
@@ -165,6 +169,8 @@ class BlockChainAPI:
                 if "owner" in data_json:
                     results.append(data_json['owner'])
         results = list(set(results))
+        self.clean_results(results)
+        results.sort()
         return results
 
     def get_transactions_by_type(self, type_stream):

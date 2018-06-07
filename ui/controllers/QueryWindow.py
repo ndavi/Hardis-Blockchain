@@ -1,11 +1,13 @@
 import sys
 
 from PyQt5 import QtCore
+from PyQt5.QtCore import QThreadPool, pyqtSlot
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from api.GraphAPI import GraphAPI
 from ui.views import queryUI
 from api.BlockChainAPI import BlockChainAPI
+from utils.Worker import Worker
 
 
 class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
@@ -19,6 +21,8 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         elif self.api_name == "iota":
             self.api = GraphAPI()
 
+        self.threadpool = QThreadPool()
+
         self.set_values()
         self.type_menu.currentTextChanged.connect(self.set_values)
 
@@ -29,20 +33,31 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
 
     def set_values(self):
         self.valeur_entree.clear()
+        self.gif_value.setMovie(self.movie)
+        self.movie.start()
         current_txt = self.type_menu.currentText()
         if current_txt == "Type de matériel":
-            results = self.api.get_streams()
+            worker = Worker(self.api.get_streams)
+            worker.signals.result.connect(self.get_results_received)
         elif current_txt == "ID":
-            results = self.api.get_all_ids()
+            worker = Worker(self.api.get_all_ids)
+            worker.signals.result.connect(self.get_results_received)
         elif current_txt == "Marque":
-            results = self.api.get_all_brands()
+            worker = Worker(self.api.get_all_brands)
+            worker.signals.result.connect(self.get_results_received)
         elif current_txt == "Personne responsable":
-            results = self.api.get_all_owners()
+            worker = Worker(self.api.get_all_owners)
+            worker.signals.result.connect(self.get_results_received)
+        self.threadpool.start(worker)
+
+    @pyqtSlot(object)
+    def get_results_received(self, results):
+        self.movie.stop()
+        self.gif_value.clear()
         for result in results:
             self.valeur_entree.addItem("")
             self.valeur_entree.setItemText(results.index(result),
                                            QtCore.QCoreApplication.translate("MainWindow", str(result).capitalize()))
-
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
@@ -51,17 +66,29 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.close()
 
     def get_transactions(self):
+        self.gif_results.setMovie(self.movie)
+        self.movie.start()
         parameter = str(self.type_menu.currentText())
         value = str(self.valeur_entree.currentText())
         if parameter == "Type de matériel":
             value_stream = self.translate_type(value)
-            results = self.api.get_transactions_by_type(value_stream)
+            worker = Worker(self.api.get_transactions_by_type, value_stream)
+            worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "ID":
-            results = self.api.get_transactions_by_id(value)
+            worker = Worker(self.api.get_transactions_by_id, value.lower())
+            worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "Marque":
-            results = self.api.get_transactions_by_brand(value)
+            worker = Worker(self.api.get_transactions_by_brand, value)
+            worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "Personne responsable":
-            results = self.api.get_transactions_by_owner(value)
+            worker = Worker(self.api.get_transactions_by_owner, value.upper())
+            worker.signals.result.connect(self.get_transactions_received)
+        self.threadpool.start(worker)
+
+    @pyqtSlot(object)
+    def get_transactions_received(self, results):
+        self.movie.stop()
+        self.gif_results.clear()
         results = self.api.print_results(results)
         if results[0] == "No result found":
             results = ["Aucun résultat"]
@@ -81,6 +108,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
             return "coffeemaker"
         else:
             return type_french
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

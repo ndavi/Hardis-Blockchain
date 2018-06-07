@@ -188,6 +188,8 @@ class GraphAPI:
             tag = str(txn.tag).replace("9","")
             types.append(tag.capitalize())
         types = list(set(types))
+        self.clean_results(types)
+        types.sort()
         return types
 
     def get_id_by_type(self, type_equip):
@@ -208,6 +210,7 @@ class GraphAPI:
                 ids.append(message['id'])
         ids = list(set(ids))
         self.clean_results(ids)
+        ids.sort()
         return ids
 
     def get_all_ids(self):
@@ -234,6 +237,7 @@ class GraphAPI:
                 ids.append(message['id'])
         ids = list(set(ids))
         self.clean_results(ids)
+        ids.sort()
         return ids
 
     def get_all_brands(self):
@@ -260,6 +264,7 @@ class GraphAPI:
                 results.append(message['brand'])
         results = list(set(results))
         self.clean_results(results)
+        results.sort()
         return results
 
     def get_all_owners(self):
@@ -283,4 +288,6 @@ class GraphAPI:
             if "owner" in message:
                 results.append(message['owner'])
         results = list(set(results))
+        self.clean_results(types)
+        results.sort()
         return results

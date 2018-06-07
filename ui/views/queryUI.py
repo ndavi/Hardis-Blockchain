@@ -5,6 +5,7 @@
 # Created by: PyQt5 UI code generator 5.5.1
 #
 # WARNING! All changes made in this file will be lost!
+import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -71,6 +72,15 @@ class Ui_Accueil(object):
         self.affichage = QtWidgets.QTextBrowser(self.centralwidget)
         self.affichage.setGeometry(QtCore.QRect(95, 250, 655, 260))
         self.affichage.setObjectName("affichage")
+
+        gif = os.path.relpath("images/loader.gif")
+        self.movie = QtGui.QMovie(gif)
+        self.movie.setScaledSize(QtCore.QSize(31, 31))
+        self.gif_value = QtWidgets.QLabel(self.centralwidget)
+        self.gif_value.setGeometry(QtCore.QRect(760, 140, 31, 31))
+        self.gif_results = QtWidgets.QLabel(self.centralwidget)
+        self.gif_results.setGeometry(QtCore.QRect(490, 190, 31, 31))
+
         Accueil.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(Accueil)

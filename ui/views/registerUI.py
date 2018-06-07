@@ -5,8 +5,12 @@
 # Created by: PyQt5 UI code generator 5.5.1
 #
 # WARNING! All changes made in this file will be lost!
+import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QMovie
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -137,6 +141,12 @@ class Ui_MainWindow(object):
         self.Identifiant_txt = QtWidgets.QLineEdit(self.centralwidget)
         self.Identifiant_txt.setGeometry(QtCore.QRect(190, 210, 191, 31))
         self.Identifiant_txt.setObjectName("Identifiant_txt")
+
+        gif = os.path.relpath("images/loader.gif")
+        self.movie = QMovie(gif)
+        self.movie.setScaledSize(QSize(31, 31))
+        self.gif_label = QtWidgets.QLabel(self.centralwidget)
+        self.gif_label.setGeometry(QtCore.QRect(390, 150, 31, 31))
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)

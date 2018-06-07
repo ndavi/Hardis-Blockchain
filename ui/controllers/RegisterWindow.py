@@ -1,4 +1,6 @@
 import sys
+
+from PyQt5.QtCore import pyqtSlot, QThreadPool
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from PyQt5 import QtCore
 
@@ -6,6 +8,8 @@ from api.GraphAPI import GraphAPI
 from ui.views import registerUI, dialogUI
 from api.BlockChainAPI import BlockChainAPI
 import datetime
+
+from utils.Worker import Worker
 
 
 class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
@@ -20,18 +24,31 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         elif self.api_name == "iota":
             self.api = GraphAPI()
 
-        self.streams = self.api.get_streams()
-        for stream in self.streams:
-            self.type_txt.addItem("")
-            self.type_txt.setItemText(self.streams.index(stream),
-                                      QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
+        self.threadpool = QThreadPool()
 
+        self.get_types()
         date_now = datetime.datetime.now()
         self.Date.setDate(QtCore.QDate(date_now.year, date_now.month, date_now.day))
         self.position = position
         self.move(self.position[0], self.position[1])
         self.Enregistrer.clicked.connect(self.register_equipment)
         self.pushButton.clicked.connect(self.return_home)
+
+    def get_types(self):
+        self.gif_label.setMovie(self.movie)
+        self.movie.start()
+        worker = Worker(self.api.get_streams)
+        worker.signals.result.connect(self.get_types_received)
+        self.threadpool.start(worker)
+
+    @pyqtSlot(object)
+    def get_types_received(self, streams):
+        self.movie.stop()
+        self.gif_label.clear()
+        for stream in streams:
+            self.type_txt.addItem("")
+            self.type_txt.setItemText(streams.index(stream),
+                                      QtCore.QCoreApplication.translate("MainWindow", str(stream).capitalize()))
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow

@@ -7,7 +7,6 @@ from api.GraphAPI import GraphAPI
 from ui.views import moveUI, dialogmoveUI
 from api.BlockChainAPI import BlockChainAPI
 import datetime
-import threading
 
 from utils.Worker import Worker, QThreadPool
 
@@ -37,12 +36,16 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.pushButton.clicked.connect(self.return_home)
 
     def get_types(self):
+        self.gif_type.setMovie(self.movie)
+        self.movie.start()
         worker = Worker(self.api.get_streams)
         worker.signals.result.connect(self.get_types_received)
         self.threadpool.start(worker)
 
     @pyqtSlot(object)
     def get_types_received(self, streams):
+        self.movie.stop()
+        self.gif_type.clear()
         for stream in streams:
             self.type_txt.addItem("")
             self.type_txt.setItemText(streams.index(stream),
@@ -51,12 +54,16 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
 
     def set_id_values(self):
         self.IDequipement.clear()
+        self.gif_id.setMovie(self.movie)
+        self.movie.start()
         worker = Worker(self.api.get_id_by_type, self.type_txt.currentText())
         worker.signals.result.connect(self.set_id_values_received)
         self.threadpool.start(worker)
 
     @pyqtSlot(object)
     def set_id_values_received(self, results_id):
+        self.movie.stop()
+        self.gif_id.clear()
         for result in results_id:
             self.IDequipement.addItem("")
             self.IDequipement.setItemText(results_id.index(result),
