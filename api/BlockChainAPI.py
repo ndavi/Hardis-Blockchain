@@ -128,6 +128,10 @@ class BlockChainAPI:
         except:
             print("Error : something occurred. Are you sure you subscribed the right stream ?")
 
+    def add_new_type(self, type_equip):
+        self.api.create("stream", type_equip, False)
+        self.api.subscribe(type_equip)
+
     # Queries
 
     def get_streams(self):

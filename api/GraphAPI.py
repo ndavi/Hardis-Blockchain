@@ -24,13 +24,8 @@ class GraphAPI:
     def print_results(self, results):
         """ Prints the given data """
         data = []
-        # hash = str(txn.hash)
-        # tag = str(txn.tag)
-        # print("Type : "+tag.strip('9'))
         if results:
             for transaction in results:
-                data.append(self.decode_message(str(transaction.signature_message_fragment)))
-
                 message = self.decode_message(str(transaction.signature_message_fragment))
                 if not isinstance(message, dict):
                     if isinstance(message, str):
@@ -62,12 +57,13 @@ class GraphAPI:
         return data
 
     def clean_results(self, results):
+        """ Removes empty element from results """
         for element in results:
             if not element:
                 results.remove(element)
 
     def decode_message(self, message):
-        """ Decode trytes message in unicode string """
+        """ Decodes trytes message in unicode string """
         try:
             msg = TryteString(message).encode('utf-8')
             msg = msg.decode('utf-8')
@@ -205,6 +201,7 @@ class GraphAPI:
         return results
 
     def get_streams(self):
+        """ Returns all the types mentioned in past transactions """
         types = []
         address_as_bytes = [bytes(self.address.encode('utf-8'))]
         raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
@@ -222,6 +219,7 @@ class GraphAPI:
         return types
 
     def get_id_by_type(self, type_equip):
+        """ Returns all the ids registered by type """
         ids = []
         transactions = []
         if type_equip:
@@ -243,6 +241,7 @@ class GraphAPI:
         return ids
 
     def get_all_ids(self):
+        """ Returns all the registered ids """
         ids = []
         address_as_bytes = [bytes(self.address.encode('utf-8'))]
         raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
@@ -270,6 +269,7 @@ class GraphAPI:
         return ids
 
     def get_all_brands(self):
+        """ Returns all the registered brands """
         results = []
         address_as_bytes = [bytes(self.address.encode('utf-8'))]
         raw_transactions = self.api.find_transactions(addresses=address_as_bytes)
@@ -297,6 +297,7 @@ class GraphAPI:
         return results
 
     def get_all_owners(self):
+        """ Returns all the registered owners """
         results = []
         address_as_bytes = [bytes(self.address.encode('utf-8'))]
         raw_transactions = self.api.find_transactions(addresses=address_as_bytes)

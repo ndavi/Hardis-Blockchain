@@ -146,10 +146,19 @@ class Ui_MainWindow(object):
         self.movie = QMovie(gif)
         self.movie.setScaledSize(QSize(31, 31))
         self.gif_label = QtWidgets.QLabel(self.centralwidget)
-        self.gif_label.setGeometry(QtCore.QRect(390, 150, 31, 31))
-        MainWindow.setCentralWidget(self.centralwidget)
+        self.gif_label.setGeometry(QtCore.QRect(410, 150, 31, 31))
+
+        self.ajout_type = QtWidgets.QPushButton(self.centralwidget)
+        self.ajout_type.setGeometry(QtCore.QRect(384, 150, 26, 31))
+        self.ajout_type.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("images/ajout.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ajout_type.setIcon(icon)
+        self.ajout_type.setIconSize(QtCore.QSize(28, 26))
+        self.ajout_type.setObjectName("ajout_type")
 
         self.retranslateUi(MainWindow)
+        MainWindow.setCentralWidget(self.centralwidget)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

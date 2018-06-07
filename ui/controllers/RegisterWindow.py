@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from PyQt5 import QtCore
 
 from api.GraphAPI import GraphAPI
+from ui.controllers.NewtypeWindow import NewtypeWindow
 from ui.views import registerUI, dialogUI
 from api.BlockChainAPI import BlockChainAPI
 import datetime
@@ -33,6 +34,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.move(self.position[0], self.position[1])
         self.Enregistrer.clicked.connect(self.register_equipment)
         self.pushButton.clicked.connect(self.return_home)
+        self.ajout_type.clicked.connect(self.add_new_type)
 
     def get_types(self):
         self.gif_label.setMovie(self.movie)
@@ -53,6 +55,11 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
         self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window.show()
+        self.close()
+
+    def add_new_type(self):
+        self.new_window = NewtypeWindow(self.api_name, self.position)
         self.new_window.show()
         self.close()
 
