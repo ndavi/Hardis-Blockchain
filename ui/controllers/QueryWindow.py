@@ -36,18 +36,16 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.gif_value.setMovie(self.movie)
         self.movie.start()
         current_txt = self.type_menu.currentText()
+        self.type_menu.setDisabled(True)
         if current_txt == "Type de matériel":
             worker = Worker(self.api.get_streams)
-            worker.signals.result.connect(self.get_results_received)
         elif current_txt == "ID":
             worker = Worker(self.api.get_all_ids)
-            worker.signals.result.connect(self.get_results_received)
         elif current_txt == "Marque":
             worker = Worker(self.api.get_all_brands)
-            worker.signals.result.connect(self.get_results_received)
         elif current_txt == "Personne responsable":
             worker = Worker(self.api.get_all_owners)
-            worker.signals.result.connect(self.get_results_received)
+        worker.signals.result.connect(self.get_results_received)
         self.threadpool.start(worker)
 
     @pyqtSlot(object)
@@ -58,6 +56,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
             self.valeur_entree.addItem("")
             self.valeur_entree.setItemText(results.index(result),
                                            QtCore.QCoreApplication.translate("MainWindow", str(result)))
+        self.type_menu.setEnabled(True)
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
