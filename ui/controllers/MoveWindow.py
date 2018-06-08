@@ -13,7 +13,7 @@ from utils.Worker import Worker, QThreadPool
 
 class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
 
-    def __init__(self, api, position, parent=None):
+    def __init__(self, api, geometry, parent=None):
         super(MoveWindow, self).__init__(parent)
         self.setupUi(self)
         self.api_name = api
@@ -30,8 +30,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.type_txt.currentTextChanged.connect(self.set_id_values)
 
         self.dateDeplacement.setDate(QtCore.QDate(date_now.year, date_now.month, date_now.day))
-        self.position = position
-        self.move(self.position[0], self.position[1])
+        self.restoreGeometry(geometry)
         self.Enregistrer.clicked.connect(self.move_equipment)
         self.pushButton.clicked.connect(self.return_home)
 
@@ -71,7 +70,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
-        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
 

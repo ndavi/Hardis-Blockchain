@@ -8,22 +8,17 @@ class ChooseWindow(QMainWindow, Ui_Accueil):
     def __init__(self, parent=None):
         super(ChooseWindow, self).__init__(parent)
         self.setupUi(self)
-        self.position = [250,100]
-        a = self.pos()
-        x = a.x()
-        y = a.y()
-        self.move(self.position[0],self.position[1])
         self.Multichain.clicked.connect(self.open_home_window_multichain)
         self.IOTA.clicked.connect(self.open_home_window_iota)
 
 
     def open_home_window_multichain(self):
-        self.new_window = HomeWindow("multichain", self.position)
+        self.new_window = HomeWindow("multichain", self.saveGeometry())
         self.new_window.show()
         self.close()
 
     def open_home_window_iota(self):
-        self.new_window = HomeWindow("iota", self.position)
+        self.new_window = HomeWindow("iota", self.saveGeometry())
         self.new_window.show()
         self.close()
 
