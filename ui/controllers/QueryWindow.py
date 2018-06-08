@@ -11,7 +11,7 @@ from utils.Worker import Worker
 
 
 class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
-    def __init__(self, api, position, parent=None):
+    def __init__(self, api, geometry, parent=None):
         super(QueryWindow, self).__init__(parent)
         self.setupUi(self)
         self.api = None
@@ -25,9 +25,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
 
         self.set_values()
         self.type_menu.currentTextChanged.connect(self.set_values)
-
-        self.position = position
-        self.move(self.position[0], self.position[1])
+        self.restoreGeometry(geometry)
         self.Enregistrer.clicked.connect(self.get_transactions)
         self.pushButton.clicked.connect(self.return_home)
 
@@ -61,7 +59,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
-        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
 

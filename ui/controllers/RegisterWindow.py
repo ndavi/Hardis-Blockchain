@@ -14,7 +14,7 @@ from utils.Worker import Worker
 
 
 class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
-    def __init__(self, api, position, parent=None):
+    def __init__(self, api, geometry, parent=None):
         super(RegisterWindow, self).__init__(parent)
         self.api = None
         self.api_name = api
@@ -26,12 +26,10 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
             self.api = GraphAPI()
 
         self.threadpool = QThreadPool()
-
+        self.restoreGeometry(geometry)
         self.get_types()
         date_now = datetime.datetime.now()
         self.Date.setDate(QtCore.QDate(date_now.year, date_now.month, date_now.day))
-        self.position = position
-        self.move(self.position[0], self.position[1])
         self.Enregistrer.clicked.connect(self.register_equipment)
         self.pushButton.clicked.connect(self.return_home)
         self.ajout_type.clicked.connect(self.add_new_type)
@@ -54,12 +52,12 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
-        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
 
     def add_new_type(self):
-        self.new_window = NewtypeWindow(self.api_name, self.position)
+        self.new_window = NewtypeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
 
@@ -83,7 +81,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
 
     def open_home_window(self):
         from ui.controllers.HomeWindow import HomeWindow
-        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
 

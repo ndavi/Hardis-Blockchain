@@ -1,5 +1,5 @@
 from PyQt5.QtCore import pyqtSlot, QThreadPool
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QDesktopWidget
 
 from api.GraphAPI import GraphAPI
 from ui.views import newtypeUI
@@ -10,7 +10,7 @@ from utils.Worker import Worker
 
 
 class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
-    def __init__(self, api, position, parent=None):
+    def __init__(self, api, geometry, parent=None):
         super(NewtypeWindow, self).__init__(parent)
         self.api = None
         self.api_name = api
@@ -25,8 +25,7 @@ class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
 
         self.get_types()
 
-        self.position = position
-        self.move(self.position[0], self.position[1])
+        self.restoreGeometry(geometry)
 
         self.Enregistrer.clicked.connect(self.create_type)
         self.pushButton.clicked.connect(self.open_home_window)
@@ -37,6 +36,7 @@ class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
         worker = Worker(self.api.get_streams)
         worker.signals.result.connect(self.get_types_received)
         self.threadpool.start(worker)
+
 
     @pyqtSlot(object)
     def get_types_received(self, streams):
@@ -55,12 +55,12 @@ class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
 
     def open_register_window(self):
         from ui.controllers.RegisterWindow import RegisterWindow
-        self.new_window = RegisterWindow(self.api_name, self.position)
+        self.new_window = RegisterWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
 
     def open_home_window(self):
         from ui.controllers.HomeWindow import HomeWindow
-        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
