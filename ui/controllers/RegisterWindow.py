@@ -76,7 +76,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.open_dialog()
 
     def open_dialog(self):
-        self.dialog = RegisterDialog(self.position)
+        self.dialog = RegisterDialog(self.saveGeometry())
         self.dialog.show()
 
     def open_home_window(self):
@@ -87,10 +87,10 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
 
 
 class RegisterDialog(QDialog, dialogUI.Ui_Dialog):
-    def __init__(self, position, parent=None):
+    def __init__(self, geometry, parent=None):
         super(RegisterDialog, self).__init__(parent)
         self.setupUi(self)
-        self.move(position[0]+200,position[1]+200)
+        self.restoreGeometry(geometry)
 
 
 if __name__ == "__main__":
