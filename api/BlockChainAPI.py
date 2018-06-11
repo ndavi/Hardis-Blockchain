@@ -140,7 +140,7 @@ class BlockChainAPI:
         for stream in streams:
             if stream['name'] != 'root':
                 if not stream['subscribed']:
-                    self.api.subscribe(stream)
+                    self.api.subscribe(stream['name'])
                 results.append(stream['name'])
         results.sort()
         return results
