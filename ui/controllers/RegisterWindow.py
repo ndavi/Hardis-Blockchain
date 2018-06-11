@@ -33,6 +33,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.Enregistrer.clicked.connect(self.register_equipment)
         self.pushButton.clicked.connect(self.return_home)
         self.ajout_type.clicked.connect(self.add_new_type)
+        self.reload.clicked.connect(self.reload_window)
 
     def get_types(self):
         self.gif_label.setMovie(self.movie)
@@ -45,6 +46,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
     def get_types_received(self, streams):
         self.movie.stop()
         self.gif_label.clear()
+        self.type_txt.clear()
         for stream in streams:
             self.type_txt.addItem("")
             self.type_txt.setItemText(streams.index(stream),
@@ -75,8 +77,12 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.open_home_window()
         self.open_dialog()
 
+    def reload_window(self):
+        self.get_types()
+        self.repaint()
+
     def open_dialog(self):
-        self.dialog = RegisterDialog(self.saveGeometry())
+        self.dialog = RegisterDialog(parent=self)
         self.dialog.show()
 
     def open_home_window(self):
@@ -87,10 +93,9 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
 
 
 class RegisterDialog(QDialog, dialogUI.Ui_Dialog):
-    def __init__(self, geometry, parent=None):
+    def __init__(self, parent=None):
         super(RegisterDialog, self).__init__(parent)
         self.setupUi(self)
-        self.restoreGeometry(geometry)
 
 
 if __name__ == "__main__":

@@ -92,6 +92,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.affichage.setText('\n'.join(list(results)))
 
     def refresh_window(self):
+        self.get_transactions()
         self.repaint()
 
 

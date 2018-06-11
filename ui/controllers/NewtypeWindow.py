@@ -68,4 +68,5 @@ class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
         self.close()
 
     def refresh_window(self):
+        self.get_types()
         self.repaint()

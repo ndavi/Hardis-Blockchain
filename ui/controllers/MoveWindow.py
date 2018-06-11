@@ -89,10 +89,11 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.open_dialog()
 
     def refresh_window(self):
+        self.get_types()
         self.repaint()
 
     def open_dialog(self):
-        self.dialog = MoveDialog(self.saveGeometry())
+        self.dialog = MoveDialog(parent=self)
         self.dialog.show()
 
     def open_home_window(self):
@@ -103,10 +104,9 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
 
 
 class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):
-    def __init__(self, geometry, parent=None):
+    def __init__(self, parent=None):
         super(MoveDialog, self).__init__(parent)
         self.setupUi(self)
-        self.restoreGeometry(geometry)
 
 
 if __name__ == "__main__":
