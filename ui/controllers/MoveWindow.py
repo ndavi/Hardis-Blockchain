@@ -87,21 +87,21 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.open_dialog()
 
     def open_dialog(self):
-        self.dialog = MoveDialog(self.position)
+        self.dialog = MoveDialog(self.saveGeometry())
         self.dialog.show()
 
     def open_home_window(self):
         from ui.controllers.HomeWindow import HomeWindow
-        self.new_window = HomeWindow(self.api_name, self.position)
+        self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
 
 
 class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):
-    def __init__(self, position, parent=None):
+    def __init__(self, geometry, parent=None):
         super(MoveDialog, self).__init__(parent)
         self.setupUi(self)
-        self.move(position[0]+200, position[1]+200)
+        self.restoreGeometry(geometry)
 
 
 if __name__ == "__main__":
@@ -109,3 +109,4 @@ if __name__ == "__main__":
     window = MoveWindow("multichain", [100,100])
     window.show()
     sys.exit(app.exec_())
+
