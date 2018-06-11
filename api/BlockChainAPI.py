@@ -129,7 +129,7 @@ class BlockChainAPI:
             print("Error : something occurred. Are you sure you subscribed the right stream ?")
 
     def add_new_type(self, type_equip):
-        self.api.create("stream", type_equip, False)
+        self.api.create("stream", str(type_equip), True)
         self.api.subscribe(type_equip)
 
     # Queries
@@ -138,8 +138,10 @@ class BlockChainAPI:
         results = []
         streams = self.api.liststreams()
         for stream in streams:
-            if stream['subscribed'] and stream['name'] != 'root':
-                results.append(stream['name'])
+            if stream['name'] != 'root':
+                if not stream['subscribed']:
+                    self.api.subscribe(stream)
+                    results.append(stream['name'])
         results.sort()
         return results
 
