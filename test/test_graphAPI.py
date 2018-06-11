@@ -16,9 +16,9 @@ class TestGraphAPI(TestCase):
         print("Register a new equipment :")
         type_equip = input("Type (computer, table, microwave ...) : ")
         brand = input("Brand : ")
-        serial_number = input("Serial number : ")
-        purchase_date = input("Date of purchase (dd-mm-yyyy format) : ")
-        business_unit = input("Business unit : ")
+        serial_number = input("serial : ")
+        purchase_date = input("purchase_date (dd-mm-yyyy format) : ")
+        business_unit = input("business_unit : ")
         team = input("Team : ")
         owner = input("Person in charge : ")
         self.api.register_equipment(type_equip, brand, serial_number, purchase_date, business_unit, team, owner)
@@ -46,7 +46,7 @@ class TestGraphAPI(TestCase):
         if type_equip not in id_equip:
             print("Type and ID of this object don't match ! Try again.")
             return
-        new_business_unit = input("New business unit : ")
+        new_business_unit = input("New business_unit : ")
         new_team = input("New team : ")
         new_owner = input("New person in charge : ")
         date = input("Date of this change : ")
