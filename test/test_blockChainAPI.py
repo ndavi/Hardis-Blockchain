@@ -17,11 +17,11 @@ class TestBlockChainAPI(TestCase):
         owner = "person"
         expected_result = json.dumps({
             "brand": brand,
-            "serial number": serial_number,
-            "date of purchase": purchase_date,
-            "business unit": business_unit,
+            "serial": serial_number,
+            "purchase_date": purchase_date,
+            "business_unit": business_unit,
             "team": team,
-            "responsible person": owner}, indent=4
+            "owner": owner}, indent=4
         )
         self.assertEqual(self.api.from_parameters_to_data_register(brand, serial_number, purchase_date, business_unit, team, owner), expected_result)
 
@@ -32,9 +32,9 @@ class TestBlockChainAPI(TestCase):
         new_owner = "person"
         expected_result = json.dumps({
             "owner": new_owner,
-            "business unit": new_business_unit,
+            "business_unit": new_business_unit,
             "team": new_team,
-            "date of the change": date}, indent=4
+            "change_date": date}, indent=4
         )
         self.assertEqual(self.api.from_parameters_to_data_move(new_owner, new_business_unit, new_team, date), expected_result)
 
@@ -130,9 +130,9 @@ class TestBlockChainAPI(TestCase):
         print("Register a new equipment :")
         type_stream = input("Type (computer, table, microwave ...) : ")
         brand = input("Brand : ")
-        serial_number = input("Serial number : ")
-        purchase_date = input("Date of purchase (dd-mm-yyyy format) : ")
-        business_unit = input("Business unit : ")
+        serial_number = input("serial : ")
+        purchase_date = input("purchase_date (dd-mm-yyyy format) : ")
+        business_unit = input("business_unit : ")
         team = input("Team : ")
         owner = input("Person in charge : ")
         self.api.register_equipment(type_stream, brand, serial_number, purchase_date, business_unit, team, owner)
@@ -147,7 +147,7 @@ class TestBlockChainAPI(TestCase):
         print("Move a registered equipement :")
         id_equip = input("Equipment's ID : ")
         type_stream = input("Type : ")
-        new_business_unit = input("New business unit : ")
+        new_business_unit = input("New business_unit : ")
         new_team = input("New team : ")
         new_owner = input("New person in charge : ")
         date = input("Date of this change : ")

@@ -50,20 +50,20 @@ class BlockChainAPI:
     def from_parameters_to_data_register(self, brand, serial_number, purchase_date, business_unit, team, owner):
         return json.dumps({
             "brand": brand,
-            "serial number": serial_number,
-            "date of purchase": purchase_date,
-            "business unit": business_unit,
+            "serial": serial_number,
+            "purchase_date": purchase_date,
+            "business_unit": business_unit,
             "team": team,
-            "responsible person": owner,
+            "owner": owner,
             "action": "register"}, indent=4
         )
 
     def from_parameters_to_data_move(self, new_owner, new_business_unit, new_team, date):
         return json.dumps({
-            "responsible person": new_owner,
-            "business unit": new_business_unit,
+            "owner": new_owner,
+            "business_unit": new_business_unit,
             "team": new_team,
-            "date of the change": date,
+            "change_date": date,
             "action": "move"}, indent=4
         )
 
@@ -88,19 +88,19 @@ class BlockChainAPI:
                 if data_json['action'] == "register":
                     data_to_print.append("Enregistrement ID : " + transaction['key'] +
                                          "\nMarque : " + data_json['brand'] +
-                                         "\nNuméro de série : " + data_json['serial number'] +
-                                         "\nDate d'achat : " + data_json['date of purchase'] +
-                                         "\nBusiness unit : " + data_json['business unit'] +
+                                         "\nNuméro de série : " + data_json['serial'] +
+                                         "\nDate d'achat : " + data_json['purchase_date'] +
+                                         "\nbusiness_unit : " + data_json['business_unit'] +
                                          "\nEquipe : " + data_json['team'] +
-                                         "\nResponsable : " + data_json['responsible person'] +
+                                         "\nResponsable : " + data_json['owner'] +
                                          "\n"
                                          )
                 elif data_json['action'] == "move":
                     data_to_print.append("Déplacement ID : " + transaction['key'] +
-                                         "\nDate du déplacement : " + data_json['date of the change'] +
-                                         "\nNouvelle business unit : " + data_json['business unit'] +
+                                         "\nDate du déplacement : " + data_json['change_date'] +
+                                         "\nNouvelle business_unit : " + data_json['business_unit'] +
                                          "\nNouvelle équipe : " + data_json['team'] +
-                                         "\nNouveau responsable : " + data_json['responsible person'] +
+                                         "\nNouveau responsable : " + data_json['owner'] +
                                          "\n"
                                          )
         else:
@@ -151,7 +151,7 @@ class BlockChainAPI:
         if type_stream:
             transactions = self.api.liststreamitems(type_stream, True, 100000)
         for tr in transactions:
-            ids.append(tr['key'])
+            ids.append(tuple(tr['key'], tr['owner']))
         ids = list(set(ids))
         self.clean_results(ids)
         ids.sort()
@@ -192,8 +192,8 @@ class BlockChainAPI:
                 data_hexa = tr['data']
                 data_txt = self.from_hexa_to_data(data_hexa)
                 data_json = json.loads(data_txt)
-                if "responsible person" in data_json:
-                    results.append(data_json['responsible person'])
+                if "owner" in data_json:
+                    results.append(data_json['owner'])
         results = list(set(results))
         self.clean_results(results)
         results.sort()
@@ -245,7 +245,7 @@ class BlockChainAPI:
         for tr in transactions:
             data_hexa = tr['data']
             data_txt = self.from_hexa_to_data(data_hexa)
-            if "\"responsible person\": \"" + owner + "\"" in data_txt:
+            if "\"owner\": \"" + owner + "\"" in data_txt:
                 results.append(tr)
         time_end = time.time()
         results_number = len(results)

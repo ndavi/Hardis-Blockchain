@@ -53,19 +53,19 @@ class GraphAPI:
                 if message['action'] == "register":
                     data.append("Enregistrement ID : " + message['id'] +
                                 "\nMarque : " + message['brand'] +
-                                "\nNuméro de série : " + message['serial number'] +
-                                "\nDate d'achat : " + message['date of purchase'] +
-                                "\nBusiness unit : " + message['business unit'] +
+                                "\nNuméro de série : " + message['serial'] +
+                                "\nDate d'achat : " + message['purchase_date'] +
+                                "\nbusiness_unit : " + message['business_unit'] +
                                 "\nEquipe : " + message['team'] +
-                                "\nResponsable : " + message['responsible person'] +
+                                "\nResponsable : " + message['owner'] +
                                 "\n"
                                 )
                 elif message['action'] == "move":
                     data.append("Déplacement ID : " + message['id'] +
-                                "\nDate du déplacement : " + message['date of the change'] +
-                                "\nNouvelle business unit : " + message['business unit'] +
+                                "\nDate du déplacement : " + message['change_date'] +
+                                "\nNouvelle business_unit : " + message['business_unit'] +
                                 "\nNouvelle équipe : " + message['team'] +
-                                "\nNouveau responsable : " + message['responsible person'] +
+                                "\nNouveau responsable : " + message['owner'] +
                                 "\n"
                                 )
         else:
@@ -94,20 +94,20 @@ class GraphAPI:
         return json.dumps({
             "id": id_equip,
             "brand": brand,
-            "serial number": serial_number,
-            "date of purchase": purchase_date,
-            "business unit": business_unit,
+            "serial": serial_number,
+            "purchase_date": purchase_date,
+            "business_unit": business_unit,
             "team": team,
-            "responsible person": owner,
+            "owner": owner,
             "action": "register"}, indent=4)
 
     def from_parameters_to_data_move(self, id_equip, new_owner, new_business_unit, new_team, date):
         return json.dumps({
             "id": id_equip,
-            "responsible person": new_owner,
-            "business unit": new_business_unit,
+            "owner": new_owner,
+            "business_unit": new_business_unit,
             "team": new_team,
-            "date of the change": date,
+            "change_date": date,
             "action": "move"}, indent=4)
 
     def add_new_type(self, type_equip):
@@ -196,7 +196,7 @@ class GraphAPI:
             trytes = str(gt_result['trytes'][0])
             txn = Transaction.from_tryte_string(trytes)
             message = self.decode_message(str(txn.signature_message_fragment))
-            if "\"responsible person\": \"" + owner + "\"" in message:
+            if "\"owner\": \"" + owner + "\"" in message:
                 results.append(txn)
         return results
 
@@ -250,7 +250,7 @@ class GraphAPI:
                         continue
                     message = json.loads(message)
             if "id" in message:
-                ids.append(message['id'])
+                ids.append(tuple([message['id'], message['owner']]))
         ids = list(set(ids))
         self.clean_results(ids)
         ids.sort()
@@ -331,8 +331,8 @@ class GraphAPI:
                     if message[0] != '{':
                         continue
                     message = json.loads(message)
-            if "responsible person" in message:
-                results.append(message['responsible person'])
+            if "owner" in message:
+                results.append(message['owner'])
         results = list(set(results))
         self.clean_results(results)
         results.sort()

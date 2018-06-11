@@ -4,6 +4,7 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QDialog, QApplication
 from PyQt5 import QtCore
 from api.GraphAPI import GraphAPI
+from ui.services.RulesService import RulesService
 from ui.views import moveUI, dialogmoveUI
 from api.BlockChainAPI import BlockChainAPI
 import datetime
@@ -63,14 +64,19 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.threadpool.start(worker)
 
     @pyqtSlot(object)
-    def set_id_values_received(self, results_id):
+    def set_id_values_received(self, results):
+        if(results == []):
+            return
         self.movie.stop()
         self.gif_id.clear()
         self.IDequipement.clear()
         for result in results_id:
+        results = RulesService.filterMyObjects(results)
+        for result in results:
+            id, owner = result
             self.IDequipement.addItem("")
-            self.IDequipement.setItemText(results_id.index(result),
-                                      QtCore.QCoreApplication.translate("MainWindow", str(result)))
+            self.IDequipement.setItemText(results.index(result),
+                                      QtCore.QCoreApplication.translate("MainWindow", str(id)))
 
     def return_home(self):
         from ui.controllers.HomeWindow import HomeWindow
@@ -95,7 +101,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.repaint()
 
     def open_dialog(self):
-        self.dialog = MoveDialog(parent=self)
+        self.dialog = MoveDialog(self.saveGeometry())
         self.dialog.show()
 
     def open_home_window(self):
@@ -106,7 +112,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
 
 
 class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self, geometry, parent=None):
         super(MoveDialog, self).__init__(parent)
         self.setupUi(self)
 
