@@ -76,6 +76,14 @@ class Ui_MainWindow(object):
         self.pushButton.setIconSize(QtCore.QSize(28, 26))
         self.pushButton.setObjectName("pushButton")
         MainWindow.setCentralWidget(self.centralwidget)
+        self.reload = QtWidgets.QPushButton(self.centralwidget)
+        self.reload.setGeometry(QtCore.QRect(760, 10, 31, 31))
+        self.reload.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("images/reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.reload.setIcon(icon1)
+        self.reload.setIconSize(QtCore.QSize(21, 21))
+        self.reload.setObjectName("reload")
 
 
         self.retranslateUi(MainWindow)

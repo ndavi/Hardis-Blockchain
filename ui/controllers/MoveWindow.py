@@ -33,6 +33,8 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.restoreGeometry(geometry)
         self.Enregistrer.clicked.connect(self.move_equipment)
         self.pushButton.clicked.connect(self.return_home)
+        self.reload.clicked.connect(self.refresh_window)
+
 
     def get_types(self):
         self.gif_type.setMovie(self.movie)
@@ -85,6 +87,9 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.api.move_equipment(id_equip, type_equip, owner, business_unit, team, purchase_date)
         self.open_home_window()
         self.open_dialog()
+
+    def refresh_window(self):
+        self.repaint()
 
     def open_dialog(self):
         self.dialog = MoveDialog(self.saveGeometry())

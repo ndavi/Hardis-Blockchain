@@ -28,6 +28,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.restoreGeometry(geometry)
         self.Enregistrer.clicked.connect(self.get_transactions)
         self.pushButton.clicked.connect(self.return_home)
+        self.reload.clicked.connect(self.refresh_window)
 
     def set_values(self):
         self.valeur_entree.clear()
@@ -89,6 +90,9 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         if results[0] == "No result found":
             results = ["Aucun résultat"]
         self.affichage.setText('\n'.join(list(results)))
+
+    def refresh_window(self):
+        self.repaint()
 
 
 if __name__ == "__main__":

@@ -29,6 +29,8 @@ class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
 
         self.Enregistrer.clicked.connect(self.create_type)
         self.pushButton.clicked.connect(self.open_home_window)
+        self.reload.clicked.connect(self.refresh_window)
+
 
     def get_types(self):
         self.gif_label.setMovie(self.movie)
@@ -64,3 +66,6 @@ class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
         self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
+
+    def refresh_window(self):
+        self.repaint()
