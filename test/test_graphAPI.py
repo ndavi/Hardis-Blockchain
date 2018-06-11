@@ -66,3 +66,6 @@ class TestGraphAPI(TestCase):
 
     def test_get_all_owners(self):
         print(self.api.get_all_owners())
+
+    def test_generate_new_address(self):
+        self.api.generate_new_address()

@@ -21,6 +21,22 @@ class GraphAPI:
         self.address = ConfigLoader.getIotaAddress()
         self.api = Iota(self.host, self.seed)
 
+    def generate_new_address(self):
+        new_address = self.api.get_new_addresses()
+        print(new_address)
+        txn = \
+            ProposedTransaction(
+                address=new_address['addresses'][0],
+                message=TryteString.from_string(""),
+                tag=Tag("NEWADDRESS"),
+                value=0,
+            )
+        self.api.send_transfer(
+            depth=3,
+            transfers=[txn],
+            change_address=str(self.address),
+        )
+
     def print_results(self, results):
         """ Prints the given data """
         data = []

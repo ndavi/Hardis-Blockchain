@@ -47,6 +47,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
     def get_types_received(self, streams):
         self.movie.stop()
         self.gif_type.clear()
+        self.type_txt.clear()
         for stream in streams:
             self.type_txt.addItem("")
             self.type_txt.setItemText(streams.index(stream),
@@ -65,6 +66,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
     def set_id_values_received(self, results_id):
         self.movie.stop()
         self.gif_id.clear()
+        self.IDequipement.clear()
         for result in results_id:
             self.IDequipement.addItem("")
             self.IDequipement.setItemText(results_id.index(result),
