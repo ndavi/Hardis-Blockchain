@@ -1,3 +1,4 @@
+import getpass
 import sys
 
 from PyQt5.QtCore import pyqtSlot, QThreadPool
@@ -70,7 +71,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         serial_number = str(self.NoSerie_txt.text())
         business_unit = str(self.type_txt_2.currentText())
         team = str(self.type_txt_3.currentText())
-        owner = str(self.Responsable_txt.text())
+        owner = str(getpass.getuser())
         purchase_date = str(self.Date.date().day())+"-"+str(self.Date.date().month())+"-"+str(self.Date.date().year())
 
         self.api.register_equipment(type_equip, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
