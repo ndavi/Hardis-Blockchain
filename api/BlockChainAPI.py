@@ -3,7 +3,6 @@ import platform
 from utils.configLoader import ConfigLoader
 from Savoir import Savoir
 import logging
-import random
 import json
 import codecs
 import time

@@ -39,7 +39,6 @@ class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
         worker.signals.result.connect(self.get_types_received)
         self.threadpool.start(worker)
 
-
     @pyqtSlot(object)
     def get_types_received(self, streams):
         self.movie.stop()
@@ -52,7 +51,16 @@ class NewtypeWindow(QMainWindow, newtypeUI.Ui_MainWindow):
     def create_type(self):
         new_type = str(self.nouveau_type.text())
         if new_type:
-            self.api.add_new_type(new_type)
+            self.gif_register.setMovie(self.movie)
+            self.movie.start()
+            worker = Worker(self.api.add_new_type, new_type)
+            worker.signals.finished.connect(self.create_type_confirmed)
+            self.threadpool.start(worker)
+
+    @pyqtSlot()
+    def create_type_confirmed(self):
+        self.movie.stop()
+        self.gif_register.clear()
         self.open_register_window()
 
     def open_register_window(self):

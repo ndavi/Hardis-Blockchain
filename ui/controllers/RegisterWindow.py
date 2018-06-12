@@ -30,6 +30,8 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.restoreGeometry(geometry)
         self.get_types()
         date_now = datetime.datetime.now()
+        self.Responsable_txt.setText(getpass.getuser())
+        self.Responsable_txt.setDisabled(True)
         self.Date.setDate(QtCore.QDate(date_now.year, date_now.month, date_now.day))
         self.Enregistrer.clicked.connect(self.register_equipment)
         self.pushButton.clicked.connect(self.return_home)
@@ -37,7 +39,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.reload.clicked.connect(self.reload_window)
 
     def get_types(self):
-        self.gif_label.setMovie(self.movie)
+        self.gif_types.setMovie(self.movie)
         self.movie.start()
         worker = Worker(self.api.get_streams)
         worker.signals.result.connect(self.get_types_received)
@@ -46,7 +48,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
     @pyqtSlot(object)
     def get_types_received(self, streams):
         self.movie.stop()
-        self.gif_label.clear()
+        self.gif_types.clear()
         self.type_txt.clear()
         for stream in streams:
             self.type_txt.addItem("")
@@ -71,10 +73,20 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         serial_number = str(self.NoSerie_txt.text())
         business_unit = str(self.type_txt_2.currentText())
         team = str(self.type_txt_3.currentText())
-        owner = str(getpass.getuser())
+        owner = str(self.Responsable.text())
         purchase_date = str(self.Date.date().day())+"-"+str(self.Date.date().month())+"-"+str(self.Date.date().year())
 
-        self.api.register_equipment(type_equip, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
+        self.gif_register.setMovie(self.movie)
+        self.movie.start()
+
+        worker = Worker(self.api.register_equipment, type_equip, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
+        worker.signals.finished.connect(self.register_equipment_confirmed)
+        self.threadpool.start(worker)
+
+    @pyqtSlot()
+    def register_equipment_confirmed(self):
+        self.movie.stop()
+        self.gif_register.clear()
         self.open_home_window()
         self.open_dialog()
 

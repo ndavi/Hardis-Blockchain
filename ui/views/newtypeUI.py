@@ -67,6 +67,8 @@ class Ui_MainWindow(object):
         self.movie.setScaledSize(QtCore.QSize(31, 31))
         self.gif_label = QtWidgets.QLabel(self.centralwidget)
         self.gif_label.setGeometry(QtCore.QRect(410, 150, 31, 31))
+        self.gif_register = QtWidgets.QLabel(self.centralwidget)
+        self.gif_register.setGeometry(QtCore.QRect(580, 465, 31, 31))
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(800, 10, 31, 31))
         self.pushButton.setText("")

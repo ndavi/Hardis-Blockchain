@@ -135,7 +135,8 @@ class Ui_Accueil(object):
         self.gif_type.setGeometry(QtCore.QRect(420, 200, 31, 31))
         self.gif_id = QtWidgets.QLabel(self.centralwidget)
         self.gif_id.setGeometry(QtCore.QRect(420, 260, 31, 31))
-
+        self.gif_register = QtWidgets.QLabel(self.centralwidget)
+        self.gif_register.setGeometry(QtCore.QRect(590, 455, 31, 31))
         Accueil.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(Accueil)

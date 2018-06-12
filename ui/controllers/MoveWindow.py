@@ -1,3 +1,4 @@
+import getpass
 import sys
 
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
@@ -24,6 +25,8 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
             self.api = GraphAPI()
 
         date_now = datetime.datetime.now()
+        self.responsable.setText(getpass.getuser())
+        self.responsable.setDisabled(True)
         self.threadpool = QThreadPool()
 
 
@@ -91,7 +94,17 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         owner = str(self.responsable.text())
         purchase_date = str(self.dateDeplacement.date().day())+"-"+str(self.dateDeplacement.date().month())+"-"+str(self.dateDeplacement.date().year())
 
-        self.api.move_equipment(id_equip, type_equip, owner, business_unit, team, purchase_date)
+        self.gif_register.setMovie(self.movie)
+        self.movie.start()
+
+        worker = Worker(self.api.move_equipment, id_equip, type_equip, owner, business_unit, team, purchase_date)
+        worker.signals.finished.connect(self.move_equipment_confirmed)
+        self.threadpool.start(worker)
+
+    @pyqtSlot()
+    def move_equipment_confirmed(self):
+        self.movie.stop()
+        self.gif_register.clear()
         self.open_home_window()
         self.open_dialog()
 
