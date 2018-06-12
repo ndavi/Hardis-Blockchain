@@ -12,7 +12,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.setEnabled(True)
-        Dialog.resize(400, 300)
+        Dialog.setFixedSize(400, 300)
         font = QtGui.QFont()
         font.setPointSize(12)
         font.setKerning(True)

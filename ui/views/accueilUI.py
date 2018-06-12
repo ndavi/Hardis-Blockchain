@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Accueil(object):
     def setupUi(self, Accueil):
         Accueil.setObjectName("Accueil")
-        Accueil.resize(845, 568)
+        Accueil.setFixedSize(845, 568)
         self.centralwidget = QtWidgets.QWidget(Accueil)
         self.centralwidget.setObjectName("centralwidget")
         self.Title = QtWidgets.QLabel(self.centralwidget)

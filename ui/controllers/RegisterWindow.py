@@ -73,7 +73,7 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         serial_number = str(self.NoSerie_txt.text())
         business_unit = str(self.type_txt_2.currentText())
         team = str(self.type_txt_3.currentText())
-        owner = str(self.Responsable.text())
+        owner = str(self.Responsable_txt.text())
         purchase_date = str(self.Date.date().day())+"-"+str(self.Date.date().month())+"-"+str(self.Date.date().year())
 
         self.gif_register.setMovie(self.movie)

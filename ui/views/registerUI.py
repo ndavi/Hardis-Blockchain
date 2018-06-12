@@ -15,7 +15,7 @@ from PyQt5.QtGui import QMovie
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(845, 568)
+        MainWindow.setFixedSize(845, 568)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.type_txt = QtWidgets.QComboBox(self.centralwidget)
@@ -164,7 +164,7 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("images/ajout.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ajout_type.setIcon(icon)
-        self.ajout_type.setIconSize(QtCore.QSize(28, 26))
+        self.ajout_type.setIconSize(QtCore.QSize(24, 24))
         self.ajout_type.setObjectName("ajout_type")
 
         self.retranslateUi(MainWindow)
