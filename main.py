@@ -16,7 +16,9 @@ class MainDaemon:
     def __init__(self):
         logger.info("Démarrage du programme")
         logger.debug("Appel à multichaind")
-        os.system("multichaind " + ConfigLoader.getBlockChainAddress())
+        code = os.system("multichaind " + ConfigLoader.getBlockChainAddress())
+        if(code == 256):
+            pass
 
 class MainProgram:
     def __init__(self):
@@ -31,11 +33,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Lancement du logiciel en mode daemon/gui')
     parser.add_argument('--daemon', help='Lancement du logiciel en mode daemon', action='store_true')
     args = parser.parse_args()
+    sys.excepthook = except_hook
 
     if args.daemon:
         program = MainDaemon()
     else:
-        sys.excepthook = except_hook
         app = QApplication(sys.argv)
         program = ChooseWindow()
         program.start(app)
