@@ -85,7 +85,7 @@ class Ui_Accueil(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(8)
         self.tableWidget.setRowCount(0)
-        self.columns = ["Entree", "ID", "Marque", "N° serie", "Date", "BU", "Equipe", "Responsable"]
+        self.columns = ["Entrée", "ID", "Marque", "N° série", "Date", "BU", "Equipe", "Responsable"]
         for column in self.columns:
             item = QtWidgets.QTableWidgetItem()
             self.tableWidget.setHorizontalHeaderItem(self.columns.index(column), item)

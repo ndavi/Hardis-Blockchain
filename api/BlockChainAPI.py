@@ -84,26 +84,8 @@ class BlockChainAPI:
             for transaction in results:
                 data = self.from_hexa_to_data(transaction['data'])
                 data_json = json.loads(data)
-                if data_json['action'] == "register":
-                    data_to_print.append("Enregistrement ID : " + transaction['key'] +
-                                         "\nMarque : " + data_json['brand'] +
-                                         "\nNuméro de série : " + data_json['serial'] +
-                                         "\nDate d'achat : " + data_json['purchase_date'] +
-                                         "\nbusiness_unit : " + data_json['business_unit'] +
-                                         "\nEquipe : " + data_json['team'] +
-                                         "\nResponsable : " + data_json['owner'] +
-                                         "\n"
-                                         )
-                elif data_json['action'] == "move":
-                    data_to_print.append("Déplacement ID : " + transaction['key'] +
-                                         "\nDate du déplacement : " + data_json['change_date'] +
-                                         "\nNouvelle business_unit : " + data_json['business_unit'] +
-                                         "\nNouvelle équipe : " + data_json['team'] +
-                                         "\nNouveau responsable : " + data_json['owner'] +
-                                         "\n"
-                                         )
-        else:
-                data_to_print.append("Aucun résultat")
+                data_json['id'] = transaction['key']
+                data_to_print.append(data_json)
         return data_to_print
 
     # Transactions
@@ -134,6 +116,7 @@ class BlockChainAPI:
     # Queries
 
     def get_streams(self):
+        """ Gets every existing stream """
         results = []
         streams = self.api.liststreams()
         for stream in streams:
@@ -145,18 +128,22 @@ class BlockChainAPI:
         return results
 
     def get_id_by_type(self, type_stream):
+        """ Gets every id for a mentioned stream. (((Each id is stored with the corresponding owner of transaction, in
+        order to check if the object is owned by the current user.))) """
         ids = []
         transactions = []
         if type_stream:
             transactions = self.api.liststreamitems(type_stream, True, 100000)
         for tr in transactions:
-            ids.append(tuple(tr['key'], tr['owner']))
+            ids.append(tr['key'])
         ids = list(set(ids))
         self.clean_results(ids)
         ids.sort()
         return ids
 
     def get_all_ids(self):
+        """ Gets every id for every existing stream. Gets every existing streams and then calls get_id_by_type for
+        every stream. """
         results = []
         streams = self.get_streams()
         for stream in streams:

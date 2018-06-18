@@ -251,7 +251,7 @@ class GraphAPI:
                         continue
                     message = json.loads(message)
             if "id" in message:
-                ids.append(tuple([message['id'], message['owner']]))
+                ids.append(message['id'])
         ids = list(set(ids))
         self.clean_results(ids)
         ids.sort()

@@ -95,7 +95,7 @@ class TestBlockChainAPI(TestCase):
         print(self.api.get_streams())
 
     def test_get_id_by_type(self):
-        def_type = ""
+        def_type = "caisson"
         print(self.api.get_id_by_type(def_type))
 
     def test_get_all_ids(self):

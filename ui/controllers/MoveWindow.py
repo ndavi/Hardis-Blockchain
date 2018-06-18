@@ -25,8 +25,6 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
             self.api = GraphAPI()
 
         date_now = datetime.datetime.now()
-        self.responsable.setText(getpass.getuser())
-        self.responsable.setDisabled(True)
         self.threadpool = QThreadPool()
 
 
@@ -73,11 +71,11 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.movie.stop()
         self.gif_id.clear()
         self.IDequipement.clear()
-        results = RulesService.filterMyObjects(results)
-        for result in results:
-            id, owner = result
+        #results = RulesService.filterMyObjects(results)
+        for id in results:
+            #id, owner = result
             self.IDequipement.addItem("")
-            self.IDequipement.setItemText(results.index(result),
+            self.IDequipement.setItemText(results.index(id),
                                       QtCore.QCoreApplication.translate("MainWindow", str(id)))
 
     def return_home(self):

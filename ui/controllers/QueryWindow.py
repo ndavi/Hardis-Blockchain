@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QThreadPool, pyqtSlot
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
@@ -69,6 +69,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         parameter = str(self.type_menu.currentText())
         value = str(self.valeur_entree.currentText())
         self.valeur_entree.setDisabled(True)
+        self.type_menu.setDisabled(True)
         if parameter == "Type de matériel":
             worker = Worker(self.api.get_transactions_by_type, value)
             worker.signals.result.connect(self.get_transactions_received)
@@ -88,15 +89,33 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.movie.stop()
         self.gif_results.clear()
         results = self.api.print_results(results)
-        # self.affichage.setText('\n'.join(list(results)))
+        self.display_data(results)
         self.valeur_entree.setEnabled(True)
+        self.type_menu.setEnabled(True)
 
     def display_data(self, transactions):
-        for tr in transactions:
-            tr_number = transactions.index(tr)
-            self.tableWidget.insertRow(tr_number)
-            for index in range(self.table.columnCount()):
-                self.setItem(tr_number, index, QtGui.QTableWidgetItem("aa"))
+        self.tableWidget.setRowCount(0)
+        if not transactions:
+            self.tableWidget.insertRow(0)
+            for index in range(self.tableWidget.columnCount()):
+                self.tableWidget.setItem(0, index, QtWidgets.QTableWidgetItem("/"))
+        else:
+            for tr in transactions:
+                tr_number = transactions.index(tr)
+                self.tableWidget.insertRow(tr_number)
+                if tr['action'] == 'register':
+                    self.tableWidget.setItem(tr_number, 0, QtWidgets.QTableWidgetItem("Enregistrement"))
+                    self.tableWidget.setItem(tr_number, 2, QtWidgets.QTableWidgetItem(tr['brand']))
+                    self.tableWidget.setItem(tr_number, 3, QtWidgets.QTableWidgetItem(tr['serial']))
+                    self.tableWidget.setItem(tr_number, 4, QtWidgets.QTableWidgetItem(tr['purchase_date']))
+                elif tr['action'] == 'move':
+                    self.tableWidget.setItem(tr_number, 0, QtWidgets.QTableWidgetItem("Déplacement"))
+                    self.tableWidget.setItem(tr_number, 4, QtWidgets.QTableWidgetItem(tr['change_date']))
+                self.tableWidget.setItem(tr_number, 1, QtWidgets.QTableWidgetItem(tr['id']))
+                self.tableWidget.setItem(tr_number, 5, QtWidgets.QTableWidgetItem(tr['business_unit']))
+                self.tableWidget.setItem(tr_number, 6, QtWidgets.QTableWidgetItem(tr['team']))
+                self.tableWidget.setItem(tr_number, 7, QtWidgets.QTableWidgetItem(tr['owner']))
+
 
     def refresh_window(self):
         self.get_transactions()
