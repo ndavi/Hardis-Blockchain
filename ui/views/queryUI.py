@@ -77,9 +77,19 @@ class Ui_Accueil(object):
         font.setPointSize(12)
         self.valeur.setFont(font)
         self.valeur.setObjectName("valeur")
-        self.affichage = QtWidgets.QTextBrowser(self.centralwidget)
-        self.affichage.setGeometry(QtCore.QRect(95, 250, 655, 260))
-        self.affichage.setObjectName("affichage")
+        # self.affichage = QtWidgets.QTextBrowser(self.centralwidget)
+        # self.affichage.setGeometry(QtCore.QRect(95, 250, 655, 260))
+        # self.affichage.setObjectName("affichage")
+        self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        self.tableWidget.setGeometry(QtCore.QRect(10, 250, 821, 281))
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(8)
+        self.tableWidget.setRowCount(0)
+        self.columns = ["Entree", "ID", "Marque", "N° serie", "Date", "BU", "Equipe", "Responsable"]
+        for column in self.columns:
+            item = QtWidgets.QTableWidgetItem()
+            self.tableWidget.setHorizontalHeaderItem(self.columns.index(column), item)
+            item.setText(column)
 
         gif = os.path.relpath("images/loader.gif")
         self.movie = QtGui.QMovie(gif)

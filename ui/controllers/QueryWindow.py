@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QThreadPool, pyqtSlot
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
@@ -68,6 +68,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.movie.start()
         parameter = str(self.type_menu.currentText())
         value = str(self.valeur_entree.currentText())
+        self.valeur_entree.setDisabled(True)
         if parameter == "Type de matériel":
             worker = Worker(self.api.get_transactions_by_type, value)
             worker.signals.result.connect(self.get_transactions_received)
@@ -87,17 +88,16 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.movie.stop()
         self.gif_results.clear()
         results = self.api.print_results(results)
-        if results[0] == "No result found":
-            results = ["Aucun résultat"]
-        self.affichage.setText('\n'.join(list(results)))
+        # self.affichage.setText('\n'.join(list(results)))
+        self.valeur_entree.setEnabled(True)
+
+    def display_data(self, transactions):
+        for tr in transactions:
+            tr_number = transactions.index(tr)
+            self.tableWidget.insertRow(tr_number)
+            for index in range(self.table.columnCount()):
+                self.setItem(tr_number, index, QtGui.QTableWidgetItem("aa"))
 
     def refresh_window(self):
         self.get_transactions()
         self.repaint()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = QueryWindow("multichain", [100,100])
-    window.show()
-    sys.exit(app.exec_())

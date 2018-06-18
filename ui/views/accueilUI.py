@@ -41,6 +41,13 @@ class Ui_Accueil(object):
         self.logo.setScaledContents(True)
         self.logo.setWordWrap(False)
         self.logo.setObjectName("logo")
+        self.retour = QtWidgets.QToolButton(self.centralwidget)
+        self.retour.setGeometry(QtCore.QRect(640, 10, 191, 41))
+        self.retour.setObjectName("toolButton")
+        self.technologie = QtWidgets.QLabel(self.centralwidget)
+        self.technologie.setGeometry(QtCore.QRect(365, 130, 111, 21))
+        self.technologie.setAlignment(QtCore.Qt.AlignCenter)
+        self.technologie.setObjectName("technologie")
         Accueil.setCentralWidget(self.centralwidget)
 
 
@@ -58,6 +65,7 @@ class Ui_Accueil(object):
         self.Empty.setText(_translate("Accueil", "Paramètres"))
         self.Query.setText(_translate("Accueil", "Consulter le\n"
 " matériel enregistré"))
+        self.retour.setText(_translate("Accueil", "Retour aux technologies"))
 
 
 if __name__ == "__main__":

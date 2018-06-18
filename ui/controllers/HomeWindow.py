@@ -18,11 +18,13 @@ class HomeWindow(QMainWindow, accueilUI.Ui_Accueil):
             self.api = BlockChainAPI()
         elif self.api_name == "iota":
             self.api = GraphAPI()
+        self.technologie.setText(self.api_name.capitalize())
         self.restoreGeometry(geometry)
         self.Empty.setEnabled(False)
         self.Register.clicked.connect(self.open_register_window)
         self.Move.clicked.connect(self.open_move_window)
         self.Query.clicked.connect(self.open_query_window)
+        self.retour.clicked.connect(self.open_choose_window)
 
     def open_register_window(self):
         self.new_window = RegisterWindow(self.api_name, self.saveGeometry())
@@ -36,6 +38,12 @@ class HomeWindow(QMainWindow, accueilUI.Ui_Accueil):
 
     def open_query_window(self):
         self.new_window = QueryWindow(self.api_name, self.saveGeometry())
+        self.new_window.show()
+        self.close()
+
+    def open_choose_window(self):
+        from ui.controllers.ChooseWindow import ChooseWindow
+        self.new_window = ChooseWindow(self.saveGeometry())
         self.new_window.show()
         self.close()
 

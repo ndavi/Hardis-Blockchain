@@ -5,11 +5,13 @@ from ui.controllers.HomeWindow import HomeWindow
 
 
 class ChooseWindow(QMainWindow, Ui_Accueil):
-    def __init__(self, parent=None):
+    def __init__(self, geometry=None, parent=None):
         super(ChooseWindow, self).__init__(parent)
         self.setupUi(self)
         self.Multichain.clicked.connect(self.open_home_window_multichain)
         self.IOTA.clicked.connect(self.open_home_window_iota)
+        if geometry:
+            self.restoreGeometry(geometry)
 
 
     def open_home_window_multichain(self):

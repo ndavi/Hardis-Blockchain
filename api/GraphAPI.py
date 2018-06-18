@@ -50,24 +50,25 @@ class GraphAPI:
                         if message[0] != '{':
                             continue
                         message = json.loads(message)
-                if message['action'] == "register":
-                    data.append("Enregistrement ID : " + message['id'] +
-                                "\nMarque : " + message['brand'] +
-                                "\nNuméro de série : " + message['serial'] +
-                                "\nDate d'achat : " + message['purchase_date'] +
-                                "\nbusiness_unit : " + message['business_unit'] +
-                                "\nEquipe : " + message['team'] +
-                                "\nResponsable : " + message['owner'] +
-                                "\n"
-                                )
-                elif message['action'] == "move":
-                    data.append("Déplacement ID : " + message['id'] +
-                                "\nDate du déplacement : " + message['change_date'] +
-                                "\nNouvelle business_unit : " + message['business_unit'] +
-                                "\nNouvelle équipe : " + message['team'] +
-                                "\nNouveau responsable : " + message['owner'] +
-                                "\n"
-                                )
+                        data.append(message)
+                # if message['action'] == "register":
+                #     data.append("Enregistrement ID : " + message['id'] +
+                #                 "\nMarque : " + message['brand'] +
+                #                 "\nNuméro de série : " + message['serial'] +
+                #                 "\nDate d'achat : " + message['purchase_date'] +
+                #                 "\nBusiness unit : " + message['business_unit'] +
+                #                 "\nEquipe : " + message['team'] +
+                #                 "\nResponsable : " + message['owner'] +
+                #                 "\n"
+                #                 )
+                # elif message['action'] == "move":
+                #     data.append("Déplacement ID : " + message['id'] +
+                #                 "\nDate du déplacement : " + message['change_date'] +
+                #                 "\nNouvelle business_unit : " + message['business_unit'] +
+                #                 "\nNouvelle équipe : " + message['team'] +
+                #                 "\nNouveau responsable : " + message['owner'] +
+                #                 "\n"
+                #                 )
         else:
             data.append("Aucun résultat")
         return data
