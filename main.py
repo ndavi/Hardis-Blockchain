@@ -5,6 +5,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 
 from ui.controllers.ChooseWindow import ChooseWindow
+from ui.controllers.Dialog import Dialog
 from utils import log
 from utils.configLoader import ConfigLoader
 from api.BlockChainAPI import BlockChainAPI
@@ -17,7 +18,7 @@ class MainDaemon:
         logger.info("Démarrage du programme")
         logger.debug("Appel à multichaind")
         code = os.system("multichaind " + ConfigLoader.getBlockChainAddress())
-        if(code == 256):
+        if(code == 256): # Quand le daemon est lancé une deuxième fois
             pass
 
 class MainProgram:
@@ -25,8 +26,11 @@ class MainProgram:
         api = BlockChainAPI()
 
 def except_hook(cls, exception, traceback):
-    sys.__excepthook__(cls, exception, traceback)
-    exit(-100)
+    #sys.__excepthook__(cls, exception, traceback)
+    #exit(-100)
+    message = "Une erreur est intervenue :\n" + exception.args[0].reason.args[0]
+    error_window = Dialog(message)
+    error_window.exec_()
 
 
 if __name__ == '__main__':

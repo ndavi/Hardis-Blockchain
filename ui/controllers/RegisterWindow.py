@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from PyQt5 import QtCore
 
 from api.GraphAPI import GraphAPI
+from ui.controllers.Dialog import Dialog
 from ui.controllers.NewtypeWindow import NewtypeWindow
 from ui.views import registerUI, dialogUI
 from api.BlockChainAPI import BlockChainAPI
@@ -77,36 +78,32 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         purchase_date = str(self.Date.date().day())+"-"+str(self.Date.date().month())+"-"+str(self.Date.date().year())
 
         try:
-            assert identifier is not None
-            assert brand is not None
-            assert serial_number is not None
+            assert type_equip is not ''
+            assert identifier is not ''
+            assert brand is not ''
+            assert serial_number is not ''
         except AssertionError:
-            self.open_error_dialog("Tous les champs du formulaire doivent être remplis !")
-
-        self.gif_register.setMovie(self.movie)
-        self.movie.start()
-
-        worker = Worker(self.api.register_equipment, type_equip, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
-        worker.signals.finished.connect(self.register_equipment_confirmed)
-        self.threadpool.start(worker)
+            self.open_dialog("Tous les champs du formulaire doivent\nêtre remplis !")
+        else:
+            self.gif_register.setMovie(self.movie)
+            self.movie.start()
+            worker = Worker(self.api.register_equipment, type_equip, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
+            worker.signals.finished.connect(self.register_equipment_confirmed)
+            self.threadpool.start(worker)
 
     @pyqtSlot()
     def register_equipment_confirmed(self):
         self.movie.stop()
         self.gif_register.clear()
         self.open_home_window()
-        self.open_dialog()
+        self.open_dialog("L'équipement a bien été enregistré!\nMerci d'avoir contribué.")
 
     def reload_window(self):
         self.get_types()
         self.repaint()
 
-    def open_error_dialog(self):
-        self.dialog = ErrorDialog(parent=self)
-        self.dialog.show()
-
-    def open_dialog(self):
-        self.dialog = RegisterDialog(parent=self)
+    def open_dialog(self, message):
+        self.dialog = Dialog(message, parent=self)
         self.dialog.show()
 
     def open_home_window(self):
@@ -114,12 +111,6 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
-
-
-class RegisterDialog(QDialog, dialogUI.Ui_Dialog):
-    def __init__(self, parent=None):
-        super(RegisterDialog, self).__init__(parent)
-        self.setupUi(self)
 
 
 if __name__ == "__main__":

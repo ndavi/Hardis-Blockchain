@@ -5,8 +5,9 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QDialog, QApplication
 from PyQt5 import QtCore
 from api.GraphAPI import GraphAPI
+from ui.controllers.Dialog import Dialog
 from ui.services.RulesService import RulesService
-from ui.views import moveUI, dialogmoveUI
+from ui.views import moveUI
 from api.BlockChainAPI import BlockChainAPI
 import datetime
 
@@ -92,26 +93,32 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         owner = str(self.responsable.text())
         purchase_date = str(self.dateDeplacement.date().day())+"-"+str(self.dateDeplacement.date().month())+"-"+str(self.dateDeplacement.date().year())
 
-        self.gif_register.setMovie(self.movie)
-        self.movie.start()
-
-        worker = Worker(self.api.move_equipment, id_equip, type_equip, owner, business_unit, team, purchase_date)
-        worker.signals.finished.connect(self.move_equipment_confirmed)
-        self.threadpool.start(worker)
+        try:
+            assert type_equip is not ''
+            assert id_equip is not ''
+            assert owner is not ''
+        except AssertionError:
+            self.open_dialog("Tous les champs du formulaire doivent\nêtre remplis !")
+        else:
+            self.gif_register.setMovie(self.movie)
+            self.movie.start()
+            worker = Worker(self.api.move_equipment, id_equip, type_equip, owner, business_unit, team, purchase_date)
+            worker.signals.finished.connect(self.move_equipment_confirmed)
+            self.threadpool.start(worker)
 
     @pyqtSlot()
     def move_equipment_confirmed(self):
         self.movie.stop()
         self.gif_register.clear()
         self.open_home_window()
-        self.open_dialog()
+        self.open_dialog("L'équipement a bien été déplacé !\nMerci d'avoir contribué.")
 
     def refresh_window(self):
         self.get_types()
         self.repaint()
 
-    def open_dialog(self):
-        self.dialog = MoveDialog(self.saveGeometry())
+    def open_dialog(self, message):
+        self.dialog = Dialog(message, parent=self)
         self.dialog.show()
 
     def open_home_window(self):
@@ -119,12 +126,6 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
         self.new_window = HomeWindow(self.api_name, self.saveGeometry())
         self.new_window.show()
         self.close()
-
-
-class MoveDialog(QDialog, dialogmoveUI.Ui_Dialog):
-    def __init__(self, geometry, parent=None):
-        super(MoveDialog, self).__init__(parent)
-        self.setupUi(self)
 
 
 if __name__ == "__main__":

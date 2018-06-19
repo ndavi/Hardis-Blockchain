@@ -24,6 +24,11 @@ class ChooseWindow(QMainWindow, Ui_Accueil):
         self.new_window.show()
         self.close()
 
+    def open_dialog(self, message):
+        from ui.controllers.Dialog import Dialog
+        self.dialog = Dialog(message, parent=self)
+        self.dialog.show()
+
     def start(self, app):
         window = ChooseWindow()
         window.show()

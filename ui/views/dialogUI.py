@@ -18,7 +18,7 @@ class Ui_Dialog(object):
         font.setKerning(True)
         Dialog.setFont(font)
         self.Texte = QtWidgets.QLabel(Dialog)
-        self.Texte.setGeometry(QtCore.QRect(70, 100, 291, 81))
+        self.Texte.setGeometry(QtCore.QRect(30, 80, 341, 151))
         self.Texte.setObjectName("Texte")
         self.Titre = QtWidgets.QLabel(Dialog)
         self.Titre.setGeometry(QtCore.QRect(110, 30, 191, 41))
@@ -36,9 +36,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Déplacement - Hardis Matériel"))
-        self.Texte.setText(_translate("Dialog", "L\'équipement a bien été enregistré !\n"
-"Merci d\'avoir contribué."))
+        Dialog.setWindowTitle(_translate("Dialog", "Hardis Matériel"))
         self.Titre.setText(_translate("Dialog", "Hardis Matériel"))
         self.BoutonOK.setText(_translate("Dialog", "OK"))
 
@@ -51,4 +49,3 @@ if __name__ == "__main__":
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())
-

@@ -23,19 +23,20 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
 
         self.threadpool = QThreadPool()
 
-        self.set_values()
-        self.type_menu.currentTextChanged.connect(self.set_values)
+        self.set_parameter_for_query()
+        self.type_menu.currentTextChanged.connect(self.set_parameter_for_query)
         self.restoreGeometry(geometry)
         self.Enregistrer.clicked.connect(self.get_transactions)
         self.pushButton.clicked.connect(self.return_home)
         self.reload.clicked.connect(self.refresh_window)
 
-    def set_values(self):
+    def set_parameter_for_query(self):
         self.valeur_entree.clear()
         self.gif_value.setMovie(self.movie)
         self.movie.start()
         current_txt = self.type_menu.currentText()
         self.type_menu.setDisabled(True)
+        self.Enregistrer.setDisabled(True)
         if current_txt == "Type de matériel":
             worker = Worker(self.api.get_streams)
         elif current_txt == "ID":
@@ -44,11 +45,11 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
             worker = Worker(self.api.get_all_brands)
         elif current_txt == "Personne responsable":
             worker = Worker(self.api.get_all_owners)
-        worker.signals.result.connect(self.get_results_received)
+        worker.signals.result.connect(self.get_parameter_for_query_received)
         self.threadpool.start(worker)
 
     @pyqtSlot(object)
-    def get_results_received(self, results):
+    def get_parameter_for_query_received(self, results):
         self.movie.stop()
         self.gif_value.clear()
         for result in results:
@@ -56,12 +57,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
             self.valeur_entree.setItemText(results.index(result),
                                            QtCore.QCoreApplication.translate("MainWindow", str(result)))
         self.type_menu.setEnabled(True)
-
-    def return_home(self):
-        from ui.controllers.HomeWindow import HomeWindow
-        self.new_window = HomeWindow(self.api_name, self.saveGeometry())
-        self.new_window.show()
-        self.close()
+        self.Enregistrer.setEnabled(True)
 
     def get_transactions(self):
         self.gif_results.setMovie(self.movie)
@@ -70,6 +66,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         value = str(self.valeur_entree.currentText())
         self.valeur_entree.setDisabled(True)
         self.type_menu.setDisabled(True)
+        self.Enregistrer.setDisabled(True)
         if parameter == "Type de matériel":
             worker = Worker(self.api.get_transactions_by_type, value)
         elif parameter == "ID":
@@ -89,6 +86,7 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.display_data(results)
         self.valeur_entree.setEnabled(True)
         self.type_menu.setEnabled(True)
+        self.Enregistrer.setEnabled(True)
 
     def display_data(self, transactions):
         self.tableWidget.setRowCount(0)
@@ -113,6 +111,11 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
                 self.tableWidget.setItem(tr_number, 6, QtWidgets.QTableWidgetItem(tr['team']))
                 self.tableWidget.setItem(tr_number, 7, QtWidgets.QTableWidgetItem(tr['owner']))
 
+    def return_home(self):
+        from ui.controllers.HomeWindow import HomeWindow
+        self.new_window = HomeWindow(self.api_name, self.saveGeometry())
+        self.new_window.show()
+        self.close()
 
     def refresh_window(self):
         self.get_transactions()
