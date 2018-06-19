@@ -48,7 +48,7 @@ class Ui_Accueil(object):
 
     def retranslateUi(self, Accueil):
         _translate = QtCore.QCoreApplication.translate
-        Accueil.setWindowTitle(_translate("Accueil", "MainWindow"))
+        Accueil.setWindowTitle(_translate("Accueil", "Hardis Matériel"))
         self.Title.setText(_translate("Accueil", "<html><head/><body><p align=\"center\">HARDIS Matériel</p></body></html>"))
         self.Multichain.setText(_translate("Accueil", "Multichain\n"
 "(Blockchain)"))

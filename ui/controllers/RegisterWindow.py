@@ -76,6 +76,13 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
         owner = str(self.Responsable_txt.text())
         purchase_date = str(self.Date.date().day())+"-"+str(self.Date.date().month())+"-"+str(self.Date.date().year())
 
+        try:
+            assert identifier is not None
+            assert brand is not None
+            assert serial_number is not None
+        except AssertionError:
+            self.open_error_dialog("Tous les champs du formulaire doivent être remplis !")
+
         self.gif_register.setMovie(self.movie)
         self.movie.start()
 
@@ -93,6 +100,10 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
     def reload_window(self):
         self.get_types()
         self.repaint()
+
+    def open_error_dialog(self):
+        self.dialog = ErrorDialog(parent=self)
+        self.dialog.show()
 
     def open_dialog(self):
         self.dialog = RegisterDialog(parent=self)

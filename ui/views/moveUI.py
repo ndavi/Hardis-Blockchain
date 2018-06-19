@@ -144,7 +144,7 @@ class Ui_Accueil(object):
 
     def retranslateUi(self, Accueil):
         _translate = QtCore.QCoreApplication.translate
-        Accueil.setWindowTitle(_translate("Accueil", "MainWindow"))
+        Accueil.setWindowTitle(_translate("Accueil", "Déplacement - Hardis Matériel"))
         self.Title.setText(_translate("Accueil", "<html><head/><body><p align=\"center\">Déplacer ou modifier un équipement</p></body></html>"))
         self.IDequipement_label.setText(_translate("Accueil", "ID équipement"))
         self.dateDeplcement_label.setText(_translate("Accueil", "Date de modification"))

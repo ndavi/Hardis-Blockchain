@@ -66,11 +66,11 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
 
     @pyqtSlot(object)
     def set_id_values_received(self, results):
-        if results == []:
-            return
         self.movie.stop()
         self.gif_id.clear()
         self.IDequipement.clear()
+        if results == []:
+            return
         #results = RulesService.filterMyObjects(results)
         for id in results:
             #id, owner = result

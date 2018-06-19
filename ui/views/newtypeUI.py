@@ -93,7 +93,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "HARDIS Matériel"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Nouveau type - Hardis Matériel"))
         self.Titre.setText(_translate("MainWindow", "Créer un nouveau type de matériel"))
         self.Enregistrer.setText(_translate("MainWindow", "Valider"))
         self.Nouveau_type.setText(_translate("MainWindow", "Nouveau type"))

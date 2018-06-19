@@ -72,16 +72,13 @@ class QueryWindow(QMainWindow, queryUI.Ui_Accueil):
         self.type_menu.setDisabled(True)
         if parameter == "Type de matériel":
             worker = Worker(self.api.get_transactions_by_type, value)
-            worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "ID":
             worker = Worker(self.api.get_transactions_by_id, value)
-            worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "Marque":
             worker = Worker(self.api.get_transactions_by_brand, value)
-            worker.signals.result.connect(self.get_transactions_received)
         elif parameter == "Personne responsable":
             worker = Worker(self.api.get_transactions_by_owner, value)
-            worker.signals.result.connect(self.get_transactions_received)
+        worker.signals.result.connect(self.get_transactions_received)
         self.threadpool.start(worker)
 
     @pyqtSlot(object)

@@ -104,10 +104,11 @@ class BlockChainAPI:
         data = self.from_parameters_to_data_move(new_owner, new_business_unit, new_team, date)
         data_hexa = self.from_data_to_hexa(data)
         try:
+            assert id_equip is not None
             self.api.publish(type_stream, id_equip, data_hexa)
             print("Equipment with id " + str(id_equip) + " properly moved")
-        except:
-            print("Error : something occurred. Are you sure you subscribed the right stream ?")
+        except AssertionError:
+            print("ID cannot be None")
 
     def add_new_type(self, type_equip):
         self.api.create("stream", str(type_equip), True)

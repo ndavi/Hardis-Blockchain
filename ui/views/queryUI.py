@@ -106,7 +106,7 @@ class Ui_Accueil(object):
 
     def retranslateUi(self, Accueil):
         _translate = QtCore.QCoreApplication.translate
-        Accueil.setWindowTitle(_translate("Accueil", "MainWindow"))
+        Accueil.setWindowTitle(_translate("Accueil", "Consultation - Hardis Matériel"))
         self.Title.setText(_translate("Accueil", "<html><head/><body><p align=\"center\">Consulter le matériel enregistré</p></body></html>"))
         self.Enregistrer.setText(_translate("Accueil", "Valider"))
         self.type_menu.setItemText(0, _translate("Accueil", "Type de matériel"))

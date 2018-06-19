@@ -36,7 +36,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Enregistrement - Hardis Matériel"))
         self.Texte.setText(_translate("Dialog", "L\'enregistrement de l\'équipement \n"
 "a bien été modifié !\n"
 "Merci d\'avoir contribué."))
