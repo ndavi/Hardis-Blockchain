@@ -103,7 +103,7 @@ class MoveWindow(QMainWindow, moveUI.Ui_Accueil):
             self.gif_register.setMovie(self.movie)
             self.movie.start()
             worker = Worker(self.api.move_equipment, id_equip, type_equip, owner, business_unit, team, purchase_date)
-            worker.signals.finished.connect(self.move_equipment_confirmed)
+            worker.signals.result.connect(self.move_equipment_confirmed)
             self.threadpool.start(worker)
 
     @pyqtSlot()

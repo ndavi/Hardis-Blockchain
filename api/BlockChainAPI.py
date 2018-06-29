@@ -1,5 +1,7 @@
 import os
 import platform
+import sys
+
 from utils.configLoader import ConfigLoader
 from Savoir import Savoir
 import logging
@@ -95,10 +97,11 @@ class BlockChainAPI:
         data_hexa = self.from_data_to_hexa(data)
         try:
             self.api.publish(type_stream, id_equip, data_hexa)
-            print("New equipment properly registered with id " + str(id_equip))
         except:
-            print("Error : something occurred. Are you sure you subscribed the right stream ?")
-        return id_equip
+            exctype, value = sys.exc_info()[:2]
+        else:
+            print("New equipment properly registered with id " + str(id_equip))
+            return True
 
     def move_equipment(self, id_equip, type_stream, new_owner, new_business_unit, new_team, date):
         data = self.from_parameters_to_data_move(new_owner, new_business_unit, new_team, date)
@@ -106,9 +109,11 @@ class BlockChainAPI:
         try:
             assert id_equip is not None
             self.api.publish(type_stream, id_equip, data_hexa)
-            print("Equipment with id " + str(id_equip) + " properly moved")
         except AssertionError:
             print("ID cannot be None")
+        else:
+            print("Equipment with id " + str(id_equip) + " properly moved")
+            return True
 
     def add_new_type(self, type_equip):
         self.api.create("stream", str(type_equip), True)

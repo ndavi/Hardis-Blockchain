@@ -88,15 +88,17 @@ class RegisterWindow(QMainWindow, registerUI.Ui_MainWindow):
             self.gif_register.setMovie(self.movie)
             self.movie.start()
             worker = Worker(self.api.register_equipment, type_equip, identifier, brand, serial_number, purchase_date, business_unit, team, owner)
-            worker.signals.finished.connect(self.register_equipment_confirmed)
+            worker.signals.result.connect(self.register_equipment_confirmed)
+            worker.signals.error.connect(sys.excepthook)
             self.threadpool.start(worker)
 
-    @pyqtSlot()
-    def register_equipment_confirmed(self):
-        self.movie.stop()
-        self.gif_register.clear()
-        self.open_home_window()
-        self.open_dialog("L'équipement a bien été enregistré!\nMerci d'avoir contribué.")
+    @pyqtSlot(object)
+    def register_equipment_confirmed(self, result):
+        if result is True:
+            self.movie.stop()
+            self.gif_register.clear()
+            self.open_home_window()
+            self.open_dialog("L'équipement a bien été enregistré!\nMerci d'avoir contribué.")
 
     def reload_window(self):
         self.get_types()

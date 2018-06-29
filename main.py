@@ -28,7 +28,7 @@ class MainProgram:
 def except_hook(cls, exception, traceback):
     #sys.__excepthook__(cls, exception, traceback)
     #exit(-100)
-    message = "Une erreur est intervenue :\n" + exception.args[0].reason.args[0]
+    message = "Une erreur est intervenue :\n" + str(exception.args[0])
     error_window = Dialog(message)
     error_window.exec_()
 

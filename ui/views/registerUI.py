@@ -192,9 +192,10 @@ class Ui_MainWindow(object):
         self.type_txt_2.setItemText(5, _translate("MainWindow", "Indifférent"))
         self.type_txt_3.setItemText(0, _translate("MainWindow", "Pole Digital"))
         self.type_txt_3.setItemText(1, _translate("MainWindow", "Pole TSI"))
-        self.type_txt_3.setItemText(2, _translate("MainWindow", "Salesforce"))
-        self.type_txt_3.setItemText(3, _translate("MainWindow", "Autre"))
-        self.type_txt_3.setItemText(4, _translate("MainWindow", "Indifférent"))
+        self.type_txt_3.setItemText(2, _translate("MainWindow", "Pole Assurance"))
+        self.type_txt_3.setItemText(3, _translate("MainWindow", "Salesforce"))
+        self.type_txt_3.setItemText(4, _translate("MainWindow", "Autre"))
+        self.type_txt_3.setItemText(5, _translate("MainWindow", "Indifférent"))
         self.Identifiant.setText(_translate("MainWindow", "Identifiant"))
 
 
